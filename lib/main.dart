@@ -1,3 +1,4 @@
+import 'package:bakery/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -185,10 +186,13 @@ class _BottomNavigationState extends State<BottomNavigation> {
             ),
             const Spacer(),
             IconButton(
-              icon: const Icon(CupertinoIcons.search),
-              color: Colors.white,
+              icon: const Icon(Icons.logout),
               onPressed: () {
-                // Aksi pencarian
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => LoginPage(),
+                  ),
+                );
               },
             ),
           ],

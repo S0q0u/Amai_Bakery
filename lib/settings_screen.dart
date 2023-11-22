@@ -33,18 +33,6 @@ class SettingsScreen extends StatelessWidget {
         title: const Text("Settings"),
         backgroundColor:
             backgroundColors[themeOptions.indexOf(currentThemeMode)],
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.logout),
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => LoginPage(),
-                    ),
-                  );
-                },
-              ),
-            ],
       ),
       body: Column(
         children: [
