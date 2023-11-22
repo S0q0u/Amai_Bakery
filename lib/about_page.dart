@@ -19,21 +19,21 @@ class about_page extends StatelessWidget {
             const SizedBox(height: 20),
             ListTile(
               title: Text(
-                'Harlin Ajeng Ukirasih',
+                'Kelompok 3',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.labelMedium,
               ),
             ),
             ListTile(
               title: Text(
-                '2109106080',
+                'UAS MOBILE',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.labelMedium,
               ),
             ),
             ListTile(
               title: Text(
-                'Mobile Programming B1 21',
+                'Mobile Programming B 21',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.labelMedium,
               ),

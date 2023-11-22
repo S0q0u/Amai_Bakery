@@ -151,17 +151,17 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    const Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        'Forgot Password?',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                          color: Color(0xff281537),
-                        ),
-                      ),
-                    ),
+                    // const Align(
+                    //   alignment: Alignment.centerRight,
+                    //   child: Text(
+                    //     'Forgot Password?',
+                    //     style: TextStyle(
+                    //       fontWeight: FontWeight.bold,
+                    //       fontSize: 12,
+                    //       color: Color(0xff281537),
+                    //     ),
+                    //   ),
+                    // ),
                     const SizedBox(height: 30),
                     ElevatedButton(
                       onPressed: () {

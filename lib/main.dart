@@ -8,6 +8,7 @@ import 'history_page.dart';
 import 'input_bakery_page.dart';
 import 'home_page.dart';
 import 'about_page.dart';
+import 'edit_cake.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'login.dart';
@@ -70,6 +71,10 @@ class MyApp extends StatelessWidget {
       // return MaterialApp(
       //   debugShowCheckedModeBanner: false,
       home: const IntroductionPage(),
+      routes: {
+        ManageCake.routeName: (ctx) => ManageCake(),
+        EditCake.routeName: (ctx) => EditCake(),
+      },
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.light,
