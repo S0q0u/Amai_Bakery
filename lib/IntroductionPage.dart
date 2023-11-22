@@ -1,4 +1,4 @@
-import 'package:bakery/main.dart';
+import 'package:bakery/login.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
@@ -15,14 +15,14 @@ class _IntroductionPageState extends State<IntroductionPage> {
   void _onIntroductionComplete() {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const BottomNavigation()),
+      MaterialPageRoute(builder: (context) => LoginPage()),
     );
   }
 
   void _onIntroductionSkip() {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const BottomNavigation()),
+      MaterialPageRoute(builder: (context) => LoginPage()),
     );
   }
 
@@ -35,8 +35,7 @@ class _IntroductionPageState extends State<IntroductionPage> {
           dotsDecorator: const DotsDecorator(
             size: Size(10.0, 10.0),
             color: Colors.black, // Warna default indikator
-            activeColor: Color.fromARGB(255, 248, 30,
-                67), // Warna indikator aktif (yang menunjukkan halaman saat ini)
+            activeColor: Color.fromARGB(255, 248, 30,67), // Warna indikator aktif (yang menunjukkan halaman saat ini)
           ),
           showSkipButton: true,
           skip: Text(

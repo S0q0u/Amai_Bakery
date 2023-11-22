@@ -1,3 +1,4 @@
+import 'package:bakery/login.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'theme_mode_data.dart';
@@ -32,6 +33,18 @@ class SettingsScreen extends StatelessWidget {
         title: const Text("Settings"),
         backgroundColor:
             backgroundColors[themeOptions.indexOf(currentThemeMode)],
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.logout),
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => LoginPage(),
+                    ),
+                  );
+                },
+              ),
+            ],
       ),
       body: Column(
         children: [
