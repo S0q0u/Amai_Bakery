@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'IntroductionPage.dart';
+import 'cake_collection.dart';
 import 'history_page.dart';
 import 'input_bakery_page.dart';
 import 'home_page.dart';
@@ -13,9 +14,17 @@ import 'theme_mode_data.dart';
 
 void main() => runApp(
       MultiProvider(
+        // providers: [
+        //   ChangeNotifierProvider(
+        //     create: (BuildContext context) => OrderData(),
+        //   ),
+        // ChangeNotifierProvider(
+        //   create: (BuildContext context) => ThemeModeData(),
+        // ),
+        // ],
         providers: [
           ChangeNotifierProvider(
-            create: (BuildContext context) => OrderData(),
+            create: (BuildContext context) => CakeList(),
           ),
           ChangeNotifierProvider(
             create: (BuildContext context) => ThemeModeData(),
