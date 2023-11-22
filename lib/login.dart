@@ -4,7 +4,6 @@ import 'package:bakery/regis.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
-
   LoginPage({Key? key}) : super(key: key);
 
   @override
@@ -28,12 +27,16 @@ class _LoginPageState extends State<LoginPage> {
     if (gmail == userGmail && pass == userPassword) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => BottomNavigation()), // User navigates to BottomNavigation
+        MaterialPageRoute(
+            builder: (context) =>
+                const BottomNavigation()), // User navigates to BottomNavigation
       );
     } else if (gmail == adminGmail && pass == adminPassword) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => ManageCake()), // Admin navigates to ManagePage
+        MaterialPageRoute(
+            builder: (context) =>
+                const BottomNavigationAdmin()), // Admin navigates to ManagePage
       );
     } else {
       showDialog(
@@ -41,7 +44,8 @@ class _LoginPageState extends State<LoginPage> {
         builder: (context) {
           return AlertDialog(
             title: const Text('Login Failed'),
-            content: const Text('Invalid Gmail or Password. Please try again...'),
+            content:
+                const Text('Invalid Gmail or Password. Please try again...'),
             backgroundColor: const Color.fromARGB(255, 248, 226, 230),
             actions: [
               TextButton(
@@ -51,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: const Text(
                   'OK',
                   style: TextStyle(
-                    color: Colors.black, 
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -72,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 248, 226, 230),
+      backgroundColor: const Color.fromARGB(255, 248, 226, 230),
       body: Stack(
         children: [
           Padding(
@@ -107,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                     TextField(
                       controller: gmailController,
                       style: const TextStyle(
-                        fontSize: 14, 
+                        fontSize: 14,
                       ),
                       decoration: const InputDecoration(
                         suffixIcon: Icon(
@@ -127,9 +131,9 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 16),
                     TextField(
                       controller: passwordController,
-                      obscureText: true, 
+                      obscureText: true,
                       style: const TextStyle(
-                        fontSize: 14, 
+                        fontSize: 14,
                       ),
                       decoration: const InputDecoration(
                         suffixIcon: Icon(
@@ -161,7 +165,7 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 30),
                     ElevatedButton(
                       onPressed: () {
-                        _login(context); 
+                        _login(context);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromARGB(255, 248, 30, 67),
@@ -224,4 +228,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-

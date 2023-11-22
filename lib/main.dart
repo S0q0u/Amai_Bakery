@@ -1,4 +1,4 @@
-import 'package:bakery/login.dart';
+import 'package:bakery/manage_cake.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,20 +10,24 @@ import 'home_page.dart';
 import 'about_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'login.dart';
 import 'settings_screen.dart';
 import 'theme_mode_data.dart';
 
 void main() => runApp(
       MultiProvider(
         // providers: [
-        //   ChangeNotifierProvider(
-        //     create: (BuildContext context) => OrderData(),
-        //   ),
+        // ChangeNotifierProvider(
+        //   create: (BuildContext context) => OrderData(),
+        // ),
         // ChangeNotifierProvider(
         //   create: (BuildContext context) => ThemeModeData(),
         // ),
         // ],
         providers: [
+          ChangeNotifierProvider(
+            create: (BuildContext context) => OrderData(),
+          ),
           ChangeNotifierProvider(
             create: (BuildContext context) => CakeList(),
           ),
@@ -57,6 +61,14 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      // home: isAdminLoggedIn
+      //     ? const BottomNavigationAdmin()
+      //     : isUserLoggedIn
+      //         ?  BottomNavigation()
+      //         : LoginPage(),
+
+      // return MaterialApp(
+      //   debugShowCheckedModeBanner: false,
       home: const IntroductionPage(),
       theme: ThemeData(
         useMaterial3: true,
@@ -64,7 +76,7 @@ class MyApp extends StatelessWidget {
         colorScheme: lightScheme,
         textTheme: TextTheme(
           headlineLarge: GoogleFonts.lato(
-            fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
           bodyLarge: GoogleFonts.lato(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -112,6 +124,134 @@ class MyApp extends StatelessWidget {
       themeMode: context
           .watch<ThemeModeData>()
           .themeMode, // Gunakan ThemeMode dari penyedia ThemeModeData
+    );
+  }
+}
+
+class BottomNavigationAdmin extends StatefulWidget {
+  const BottomNavigationAdmin({Key? key});
+
+  @override
+  _BottomNavigationAdminState createState() => _BottomNavigationAdminState();
+}
+
+class _BottomNavigationAdminState extends State<BottomNavigationAdmin> {
+  int _selectedIndex = 0;
+
+  // List pages yang ditampilkan
+  final List<Widget> _pages = [
+    const home_page(),
+    const ManageCake(),
+    const about_page(),
+  ];
+
+  // Metode untuk pindah halaman ke about page
+  void _navigateToAboutPage() {
+    setState(() {
+      _selectedIndex = 3;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        // foregroundColor: Colors.pink,
+        centerTitle: true,
+        title: Row(
+          children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  shape: const CircleBorder(),
+                  padding: const EdgeInsets.all(15.0)),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const SettingsScreen(),
+                  ),
+                );
+              },
+              child: const Icon(
+                Icons.settings,
+                size: 20.0,
+              ),
+            ),
+            const Spacer(), // Spacer akan mengisi ruang di antara dua elemen berikutnya.
+            Text(
+              'ORDERING BAKERY',
+              style: Theme.of(context).textTheme.headlineLarge,
+            ),
+            const Spacer(),
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => LoginPage(),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+        // backgroundColor: backgroundColors[currentThemeMode.index],
+      ),
+      body: _pages[_selectedIndex],
+      // bottomNavigationBar: BottomNavigationBar(
+      //   items: const [
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: 'Home',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.edit),
+      //       label: 'Manage Cake',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.info),
+      //       label: 'About',
+      //     ),
+      //   ],
+      //   currentIndex: 0,
+      //   onTap: (index) {},
+      // ),
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: const Color.fromARGB(255, 248, 30, 67),
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.edit),
+            label: 'Manage Cake',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.info),
+            label: 'About',
+          ),
+        ],
+        unselectedIconTheme: Theme.of(context).iconTheme,
+        type: BottomNavigationBarType.fixed,
+      ),
+      // Menampilkan floating button menuju about page hanya di home page
+      floatingActionButton: _selectedIndex == 0
+          ? FloatingActionButton(
+              onPressed: _navigateToAboutPage,
+              backgroundColor: const Color.fromARGB(255, 248, 30, 67),
+              child: const Icon(
+                CupertinoIcons.info,
+                color: Colors.white,
+              ),
+            )
+          : null,
     );
   }
 }
