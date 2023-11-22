@@ -1,4 +1,5 @@
 import 'package:bakery/main.dart';
+import 'package:bakery/manage_cake.dart';
 import 'package:bakery/regis.dart';
 import 'package:flutter/material.dart';
 
@@ -18,13 +19,21 @@ class _LoginPageState extends State<LoginPage> {
     String gmail = gmailController.text;
     String pass = passwordController.text;
 
-    String validGmail = 'mobile@gmail.com';
-    String validPassword = '12345';
+    String userGmail = 'user@gmail.com';
+    String userPassword = '12345';
 
-    if (gmail == validGmail && pass == validPassword) {
+    String adminGmail = 'admin@gmail.com';
+    String adminPassword = 'admin123';
+
+    if (gmail == userGmail && pass == userPassword) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => BottomNavigation()),
+        MaterialPageRoute(builder: (context) => BottomNavigation()), // User navigates to BottomNavigation
+      );
+    } else if (gmail == adminGmail && pass == adminPassword) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => ManageCake()), // Admin navigates to ManagePage
       );
     } else {
       showDialog(

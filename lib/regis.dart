@@ -38,12 +38,18 @@ class _RegisPageState extends State<RegisPage> {
           return AlertDialog(
             title: const Text('Registration Failed'),
             content: const Text('Passwords do not match. Please try again...'),
+            backgroundColor: const Color.fromARGB(255, 248, 226, 230),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text('OK'),
+                child: const Text(
+                  'OK',
+                  style: TextStyle(
+                    color: Colors.black, 
+                  ),
+                ),
               ),
             ],
           );

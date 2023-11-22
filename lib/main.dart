@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
         colorScheme: lightScheme,
         textTheme: TextTheme(
           headlineLarge: GoogleFonts.lato(
-              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+            fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
           bodyLarge: GoogleFonts.lato(
             fontSize: 24,
             fontWeight: FontWeight.bold,
