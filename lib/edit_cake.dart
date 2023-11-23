@@ -95,7 +95,11 @@ class _EditCakeState extends State<EditCake> {
             children: [
               TextFormField(
                 controller: _nameController,
-                decoration: InputDecoration(labelText: 'Name'),
+                style: Theme.of(context).textTheme.labelMedium,
+                decoration: InputDecoration(
+                  labelText: 'Name',
+                  labelStyle: Theme.of(context).textTheme.labelMedium,
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a name.';
@@ -105,7 +109,11 @@ class _EditCakeState extends State<EditCake> {
               ),
               TextFormField(
                 controller: _priceController,
-                decoration: InputDecoration(labelText: 'Price'),
+                style: Theme.of(context).textTheme.labelMedium,
+                decoration: InputDecoration(
+                  labelText: 'Price',
+                  labelStyle: Theme.of(context).textTheme.labelMedium,
+                ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -122,7 +130,11 @@ class _EditCakeState extends State<EditCake> {
               ),
               TextFormField(
                 controller: _descriptionController,
-                decoration: InputDecoration(labelText: 'Description'),
+                style: Theme.of(context).textTheme.labelMedium,
+                decoration: InputDecoration(
+                  labelText: 'Description',
+                  labelStyle: Theme.of(context).textTheme.labelMedium,
+                ),
                 maxLines: 3,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -136,7 +148,11 @@ class _EditCakeState extends State<EditCake> {
               ),
               TextFormField(
                 controller: _imageUrlController,
-                decoration: InputDecoration(labelText: 'Image URL'),
+                style: Theme.of(context).textTheme.labelMedium,
+                decoration: InputDecoration(
+                  labelText: 'Image URL',
+                  labelStyle: Theme.of(context).textTheme.labelMedium,
+                ),
                 keyboardType: TextInputType.url,
                 validator: (value) {
                   if (value == null || value.isEmpty) {

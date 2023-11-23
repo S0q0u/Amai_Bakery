@@ -120,6 +120,7 @@ class MyApp extends StatelessWidget {
             color: const Color.fromARGB(255, 248, 30, 67),
           ),
           labelMedium: const TextStyle(fontSize: 18, color: Colors.white),
+          labelSmall: const TextStyle(fontSize: 18, color: Colors.black),
         ),
         dialogBackgroundColor: Colors.white,
         iconTheme: const IconThemeData(

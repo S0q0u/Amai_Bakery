@@ -79,11 +79,11 @@ class ManageCake extends StatelessWidget {
                       children: [
                         Text(
                           cakeData1.items[index].name,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          // const TextStyle(
+                          //   fontSize: 15,
+                          //   fontWeight: FontWeight.bold,
+                          // ),
                         ),
                         Row(
                           children: [
@@ -106,9 +106,18 @@ class ManageCake extends StatelessWidget {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                      title: const Text('Konfirmasi'),
-                                      content: const Text(
-                                          'Anda yakin ingin menghapus?'),
+                                      title: Text(
+                                        'Konfirmasi',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelMedium,
+                                      ),
+                                      content: Text(
+                                        'Anda yakin ingin menghapus?',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelSmall,
+                                      ),
                                       actions: [
                                         TextButton(
                                           onPressed: () {
