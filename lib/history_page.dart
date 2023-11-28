@@ -16,6 +16,15 @@ class _history_pageState extends State<history_page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.pink,
+        title: const Text(
+          'History',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
       // backgroundColor: const Color.fromARGB(255, 240, 202, 209),
       body: ListView.builder(
         // Menghitung jumlah item sesuai panjang list

@@ -79,6 +79,7 @@ class _EditCakeState extends State<EditCake> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.pink,
         title: Text('Edit Cake'),
         actions: [
           IconButton(
@@ -95,10 +96,10 @@ class _EditCakeState extends State<EditCake> {
             children: [
               TextFormField(
                 controller: _nameController,
-                style: Theme.of(context).textTheme.labelMedium,
+                //style: Theme.of(context).textTheme.labelMedium,
                 decoration: InputDecoration(
                   labelText: 'Name',
-                  labelStyle: Theme.of(context).textTheme.labelMedium,
+                  //labelStyle: Theme.of(context).textTheme.labelMedium,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -109,10 +110,10 @@ class _EditCakeState extends State<EditCake> {
               ),
               TextFormField(
                 controller: _priceController,
-                style: Theme.of(context).textTheme.labelMedium,
+                //style: Theme.of(context).textTheme.labelMedium,
                 decoration: InputDecoration(
                   labelText: 'Price',
-                  labelStyle: Theme.of(context).textTheme.labelMedium,
+                  //labelStyle: Theme.of(context).textTheme.labelMedium,
                 ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
@@ -130,10 +131,10 @@ class _EditCakeState extends State<EditCake> {
               ),
               TextFormField(
                 controller: _descriptionController,
-                style: Theme.of(context).textTheme.labelMedium,
+                //style: Theme.of(context).textTheme.labelMedium,
                 decoration: InputDecoration(
                   labelText: 'Description',
-                  labelStyle: Theme.of(context).textTheme.labelMedium,
+                  //labelStyle: Theme.of(context).textTheme.labelMedium,
                 ),
                 maxLines: 3,
                 validator: (value) {
@@ -148,10 +149,10 @@ class _EditCakeState extends State<EditCake> {
               ),
               TextFormField(
                 controller: _imageUrlController,
-                style: Theme.of(context).textTheme.labelMedium,
+                //style: Theme.of(context).textTheme.labelMedium,
                 decoration: InputDecoration(
                   labelText: 'Image URL',
-                  labelStyle: Theme.of(context).textTheme.labelMedium,
+                  //labelStyle: Theme.of(context).textTheme.labelMedium,
                 ),
                 keyboardType: TextInputType.url,
                 validator: (value) {

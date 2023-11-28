@@ -98,27 +98,71 @@ class _InputPageState extends State<input_bakery_page> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Colors.pink,
           title: Text(
             'NOTA PESANAN',
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: TextStyle(
+              color: Colors.white,
+            ),
+            //style: Theme.of(context).textTheme.bodyMedium,
           ),
           content: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Nama: $nameValue'),
-              Text('Nomor Telepon: $phoneNumberValue'),
-              Text('Alamat: $addressValue'),
-              const Text('Pesanan:'),
+              Text(
+                'Nama: $nameValue',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              Text(
+                'Nomor Telepon: $phoneNumberValue',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              Text(
+                'Alamat: $addressValue',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              const Text(
+                'Pesanan:',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
               for (String item in quantities.keys)
-                Text('$item: ${quantities[item]} x Rp ${menuPrices[item]}'),
-              Text('Total: Rp ${getTotal()}'),
-              Text('Tanggal Pemesanan: $day/$month/$year'),
-              Text('Waktu Pemesanan: $hour:$minute'),
+              Text(
+                '$item: ${quantities[item]} x Rp ${menuPrices[item]}',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              Text(''
+                'Total: Rp ${getTotal()}',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              Text(
+                'Tanggal Pemesanan: $day/$month/$year',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              Text(
+                'Waktu Pemesanan: $hour:$minute',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             ],
           ),
           // Menerapkan background color sesuai tema
-          backgroundColor: Theme.of(context).dialogBackgroundColor,
+          //backgroundColor: Theme.of(context).dialogBackgroundColor,
           // Menutup nota dan membersihkan inputan
           actions: [
             TextButton(
@@ -128,7 +172,10 @@ class _InputPageState extends State<input_bakery_page> {
               },
               child: Text(
                 'Tutup',
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+                //style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
           ],
@@ -140,6 +187,15 @@ class _InputPageState extends State<input_bakery_page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.pink,
+        title: const Text(
+          'Buy Cake',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(

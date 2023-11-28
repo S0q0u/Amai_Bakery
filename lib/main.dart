@@ -16,29 +16,29 @@ import 'settings_screen.dart';
 import 'theme_mode_data.dart';
 
 void main() => runApp(
-      MultiProvider(
-        // providers: [
-        // ChangeNotifierProvider(
-        //   create: (BuildContext context) => OrderData(),
-        // ),
-        // ChangeNotifierProvider(
-        //   create: (BuildContext context) => ThemeModeData(),
-        // ),
-        // ],
-        providers: [
-          ChangeNotifierProvider(
-            create: (BuildContext context) => OrderData(),
-          ),
-          ChangeNotifierProvider(
-            create: (BuildContext context) => CakeList(),
-          ),
-          ChangeNotifierProvider(
-            create: (BuildContext context) => ThemeModeData(),
-          ),
-        ],
-        child: MyApp(),
+  MultiProvider(
+    // providers: [
+    // ChangeNotifierProvider(
+    //   create: (BuildContext context) => OrderData(),
+    // ),
+    // ChangeNotifierProvider(
+    //   create: (BuildContext context) => ThemeModeData(),
+    // ),
+    // ],
+    providers: [
+      ChangeNotifierProvider(
+        create: (BuildContext context) => OrderData(),
       ),
-    );
+      ChangeNotifierProvider(
+        create: (BuildContext context) => CakeList(),
+      ),
+      ChangeNotifierProvider(
+        create: (BuildContext context) => ThemeModeData(),
+      ),
+    ],
+    child: MyApp(),
+  ),
+);
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
@@ -49,16 +49,16 @@ class MyApp extends StatelessWidget {
   // Metode toggleTheme untuk ganti tema dark -> light dan sebaliknya
   @override
   Widget build(BuildContext context) {
-    ColorScheme lightScheme = ColorScheme.fromSeed(
-      seedColor: Colors.white,
-    );
-    ColorScheme darkScheme = ColorScheme.fromSeed(
-      seedColor: Colors.black,
-      brightness: Brightness.dark,
-    );
-
-    final themeModeData = context.watch<ThemeModeData>();
-    final currentThemeMode = themeModeData.themeMode;
+    // ColorScheme lightScheme = ColorScheme.fromSeed(
+    //   seedColor: Colors.white,
+    // );
+    // ColorScheme darkScheme = ColorScheme.fromSeed(
+    //   seedColor: Colors.black,
+    //   brightness: Brightness.dark,
+    // );
+    //
+    // final themeModeData = context.watch<ThemeModeData>();
+    // final currentThemeMode = themeModeData.themeMode;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -70,66 +70,75 @@ class MyApp extends StatelessWidget {
 
       // return MaterialApp(
       //   debugShowCheckedModeBanner: false,
-      home: const IntroductionPage(),
+      //home: const IntroductionPage(),
+      home: const BottomNavigation(),
       routes: {
+        home_page.routeName: (ctx) => home_page(),
         ManageCake.routeName: (ctx) => ManageCake(),
         EditCake.routeName: (ctx) => EditCake(),
       },
       theme: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.light,
-        colorScheme: lightScheme,
-        textTheme: TextTheme(
-          headlineLarge: GoogleFonts.lato(
-              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-          bodyLarge: GoogleFonts.lato(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-          bodyMedium: const TextStyle(color: Colors.black, fontSize: 18),
-          bodySmall: GoogleFonts.inconsolata(
-            fontSize: 18,
-            color: const Color.fromARGB(255, 248, 30, 67),
-            fontWeight: FontWeight.bold,
-          ),
-          labelMedium: const TextStyle(fontSize: 18, color: Colors.black),
-          labelSmall: const TextStyle(fontSize: 18, color: Colors.white),
-        ),
-        dialogBackgroundColor: Colors.black,
-        iconTheme: const IconThemeData(
-          color: Colors.black,
-        ),
+        // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        // useMaterial3: true,
+        primarySwatch: Colors.pink,
+        //primaryColor: Color.fromRGBO(255, 248, 30, 1),
       ),
-      darkTheme: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.dark,
-        colorScheme: darkScheme,
-        textTheme: TextTheme(
-          headlineLarge: GoogleFonts.lato(
-              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-          bodyLarge: GoogleFonts.lato(
-            color: Colors.black,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-          bodyMedium: const TextStyle(color: Colors.black, fontSize: 18),
-          bodySmall: GoogleFonts.inconsolata(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: const Color.fromARGB(255, 248, 30, 67),
-          ),
-          labelMedium: const TextStyle(fontSize: 18, color: Colors.white),
-          labelSmall: const TextStyle(fontSize: 18, color: Colors.black),
-        ),
-        dialogBackgroundColor: Colors.white,
-        iconTheme: const IconThemeData(
-          color: Colors.white,
-        ),
-      ),
-      themeMode: context
-          .watch<ThemeModeData>()
-          .themeMode, // Gunakan ThemeMode dari penyedia ThemeModeData
+
+      // theme: ThemeData(
+      //   useMaterial3: true,
+      //   brightness: Brightness.light,
+      //   colorScheme: lightScheme,
+      //   textTheme: TextTheme(
+      //     headlineLarge: GoogleFonts.lato(
+      //         fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+      //     bodyLarge: GoogleFonts.lato(
+      //       fontSize: 24,
+      //       fontWeight: FontWeight.bold,
+      //       color: Colors.black,
+      //     ),
+      //     bodyMedium: const TextStyle(color: Colors.black, fontSize: 18),
+      //     bodySmall: GoogleFonts.inconsolata(
+      //       fontSize: 18,
+      //       color: const Color.fromARGB(255, 248, 30, 67),
+      //       fontWeight: FontWeight.bold,
+      //     ),
+      //     labelMedium: const TextStyle(fontSize: 18, color: Colors.black),
+      //     labelSmall: const TextStyle(fontSize: 18, color: Colors.white),
+      //   ),
+      //   dialogBackgroundColor: Colors.black,
+      //   iconTheme: const IconThemeData(
+      //     color: Colors.black,
+      //   ),
+      // ),
+      // darkTheme: ThemeData(
+      //   useMaterial3: true,
+      //   brightness: Brightness.dark,
+      //   colorScheme: darkScheme,
+      //   textTheme: TextTheme(
+      //     headlineLarge: GoogleFonts.lato(
+      //         fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+      //     bodyLarge: GoogleFonts.lato(
+      //       color: Colors.black,
+      //       fontSize: 24,
+      //       fontWeight: FontWeight.bold,
+      //     ),
+      //     bodyMedium: const TextStyle(color: Colors.black, fontSize: 18),
+      //     bodySmall: GoogleFonts.inconsolata(
+      //       fontSize: 18,
+      //       fontWeight: FontWeight.bold,
+      //       color: const Color.fromARGB(255, 248, 30, 67),
+      //     ),
+      //     labelMedium: const TextStyle(fontSize: 18, color: Colors.white),
+      //     labelSmall: const TextStyle(fontSize: 18, color: Colors.black),
+      //   ),
+      //   dialogBackgroundColor: Colors.white,
+      //   iconTheme: const IconThemeData(
+      //     color: Colors.white,
+      //   ),
+      // ),
+      // themeMode: context
+      //     .watch<ThemeModeData>()
+      //     .themeMode, // Gunakan ThemeMode dari penyedia ThemeModeData
     );
   }
 }
@@ -146,7 +155,7 @@ class _BottomNavigationAdminState extends State<BottomNavigationAdmin> {
 
   // List pages yang ditampilkan
   final List<Widget> _pages = [
-    const home_page(),
+    home_page(),
     const ManageCake(),
     const about_page(),
   ];
@@ -161,48 +170,48 @@ class _BottomNavigationAdminState extends State<BottomNavigationAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // foregroundColor: Colors.pink,
-        centerTitle: true,
-        title: Row(
-          children: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  shape: const CircleBorder(),
-                  padding: const EdgeInsets.all(15.0)),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const SettingsScreen(),
-                  ),
-                );
-              },
-              child: const Icon(
-                Icons.settings,
-                size: 20.0,
-              ),
-            ),
-            const Spacer(), // Spacer akan mengisi ruang di antara dua elemen berikutnya.
-            Text(
-              'ORDERING BAKERY',
-              style: Theme.of(context).textTheme.headlineLarge,
-            ),
-            const Spacer(),
-            IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => LoginPage(),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-        // backgroundColor: backgroundColors[currentThemeMode.index],
-      ),
+      // appBar: AppBar(
+      //   // foregroundColor: Colors.pink,
+      //   centerTitle: true,
+      //   title: Row(
+      //     children: [
+      //       ElevatedButton(
+      //         style: ElevatedButton.styleFrom(
+      //             backgroundColor: Colors.black,
+      //             shape: const CircleBorder(),
+      //             padding: const EdgeInsets.all(15.0)),
+      //         onPressed: () {
+      //           Navigator.of(context).push(
+      //             MaterialPageRoute(
+      //               builder: (_) => const SettingsScreen(),
+      //             ),
+      //           );
+      //         },
+      //         child: const Icon(
+      //           Icons.settings,
+      //           size: 20.0,
+      //         ),
+      //       ),
+      //       const Spacer(), // Spacer akan mengisi ruang di antara dua elemen berikutnya.
+      //       Text(
+      //         'ORDERING BAKERY',
+      //         style: Theme.of(context).textTheme.headlineLarge,
+      //       ),
+      //       const Spacer(),
+      //       IconButton(
+      //         icon: const Icon(Icons.logout),
+      //         onPressed: () {
+      //           Navigator.of(context).pushReplacement(
+      //             MaterialPageRoute(
+      //               builder: (context) => LoginPage(),
+      //             ),
+      //           );
+      //         },
+      //       ),
+      //     ],
+      //   ),
+      //   // backgroundColor: backgroundColors[currentThemeMode.index],
+      // ),
       body: _pages[_selectedIndex],
       // bottomNavigationBar: BottomNavigationBar(
       //   items: const [
@@ -236,7 +245,7 @@ class _BottomNavigationAdminState extends State<BottomNavigationAdmin> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.edit),
+            icon: Icon(Icons.cake_outlined),
             label: 'Manage Cake',
           ),
           BottomNavigationBarItem(
@@ -248,16 +257,6 @@ class _BottomNavigationAdminState extends State<BottomNavigationAdmin> {
         type: BottomNavigationBarType.fixed,
       ),
       // Menampilkan floating button menuju about page hanya di home page
-      floatingActionButton: _selectedIndex == 0
-          ? FloatingActionButton(
-              onPressed: _navigateToAboutPage,
-              backgroundColor: const Color.fromARGB(255, 248, 30, 67),
-              child: const Icon(
-                CupertinoIcons.info,
-                color: Colors.white,
-              ),
-            )
-          : null,
     );
   }
 }
@@ -274,77 +273,71 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   // List pages yang ditampilkan
   final List<Widget> _pages = [
-    const home_page(),
+    home_page(),
     const input_bakery_page(),
     const history_page(),
     const about_page(),
   ];
 
-  // Metode untuk pindah halaman ke about page
-  void _navigateToAboutPage() {
-    setState(() {
-      _selectedIndex = 3;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    // Ambil tema yang aktif dari ThemeModeData
-    final currentThemeMode = context.watch<ThemeModeData>().themeMode;
-
-    // Daftar warna latar belakang sesuai dengan tema
-    final backgroundColors = [
-      Colors
-          .pink, // Background App Bar dan Bottom Navigation Bar untuk ThemeMode.system
-      Colors
-          .green, // Background App Bar dan Bottom Navigation Bar untuk ThemeMode.light
-      Colors
-          .blue, // Background App Bar dan Bottom Navigation Bar untuk ThemeMode.dark
-    ];
+    // // Ambil tema yang aktif dari ThemeModeData
+    // final currentThemeMode = context.watch<ThemeModeData>().themeMode;
+    //
+    // // Daftar warna latar belakang sesuai dengan tema
+    // final backgroundColors = [
+    //   Colors
+    //       .pink, // Background App Bar dan Bottom Navigation Bar untuk ThemeMode.system
+    //   Colors
+    //       .green, // Background App Bar dan Bottom Navigation Bar untuk ThemeMode.light
+    //   Colors
+    //       .blue, // Background App Bar dan Bottom Navigation Bar untuk ThemeMode.dark
+    // ];
 
     return Scaffold(
-      appBar: AppBar(
-        // foregroundColor: Colors.pink,
-        centerTitle: true,
-        title: Row(
-          children: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  shape: const CircleBorder(),
-                  padding: const EdgeInsets.all(15.0)),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const SettingsScreen(),
-                  ),
-                );
-              },
-              child: const Icon(
-                Icons.settings,
-                size: 20.0,
-              ),
-            ),
-            const Spacer(), // Spacer akan mengisi ruang di antara dua elemen berikutnya.
-            Text(
-              'ORDERING BAKERY',
-              style: Theme.of(context).textTheme.headlineLarge,
-            ),
-            const Spacer(),
-            IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => LoginPage(),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-        backgroundColor: backgroundColors[currentThemeMode.index],
-      ),
+      // appBar: AppBar(
+      //   // foregroundColor: Colors.pink,
+      //   centerTitle: true,
+      //   title: Row(
+      //     children: [
+      //       ElevatedButton(
+      //         style: ElevatedButton.styleFrom(
+      //             backgroundColor: Colors.black,
+      //             shape: const CircleBorder(),
+      //             padding: const EdgeInsets.all(15.0)),
+      //         onPressed: () {
+      //           Navigator.of(context).push(
+      //             MaterialPageRoute(
+      //               builder: (_) => const SettingsScreen(),
+      //             ),
+      //           );
+      //         },
+      //         child: const Icon(
+      //           Icons.settings,
+      //           size: 20.0,
+      //         ),
+      //       ),
+      //       const Spacer(), // Spacer akan mengisi ruang di antara dua elemen berikutnya.
+      //       Text(
+      //         'ORDERING BAKERY',
+      //         style: Theme.of(context).textTheme.headlineLarge,
+      //       ),
+      //       const Spacer(),
+      //       IconButton(
+      //         icon: const Icon(Icons.logout),
+      //         onPressed: () {
+      //           Navigator.of(context).pushReplacement(
+      //             MaterialPageRoute(
+      //               builder: (context) => LoginPage(),
+      //             ),
+      //           );
+      //         },
+      //       ),
+      //     ],
+      //   ),
+      //   backgroundColor: backgroundColors[currentThemeMode.index],
+      // ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: const Color.fromARGB(255, 248, 30, 67),
@@ -375,17 +368,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
         unselectedIconTheme: Theme.of(context).iconTheme,
         type: BottomNavigationBarType.fixed,
       ),
-      // Menampilkan floating button menuju about page hanya di home page
-      floatingActionButton: _selectedIndex == 0
-          ? FloatingActionButton(
-              onPressed: _navigateToAboutPage,
-              backgroundColor: const Color.fromARGB(255, 248, 30, 67),
-              child: const Icon(
-                CupertinoIcons.info,
-                color: Colors.white,
-              ),
-            )
-          : null,
     );
   }
 }

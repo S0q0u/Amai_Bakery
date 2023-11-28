@@ -14,7 +14,8 @@ class ManageCake extends StatelessWidget {
     final cakeData1 = Provider.of<CakeList>(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: theme.primaryColor,
+        //backgroundColor: theme.primaryColor,
+        backgroundColor: Colors.pink,
         title: const Text(
           'Manage Cake',
           style: TextStyle(
@@ -79,11 +80,12 @@ class ManageCake extends StatelessWidget {
                       children: [
                         Text(
                           cakeData1.items[index].name,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                          // const TextStyle(
-                          //   fontSize: 15,
-                          //   fontWeight: FontWeight.bold,
-                          // ),
+                          //style: Theme.of(context).textTheme.bodyMedium,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         Row(
                           children: [
@@ -96,7 +98,8 @@ class ManageCake extends StatelessWidget {
                                   arguments: cakeData1.items[index].id,
                                 );
                               },
-                              color: Theme.of(context).primaryColor,
+                              //color: Theme.of(context).primaryColor,
+                              color: Colors.black,
                             ),
                             IconButton(
                               icon: const Icon(Icons.delete),
@@ -106,17 +109,24 @@ class ManageCake extends StatelessWidget {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
+                                      backgroundColor: Colors.pink,
                                       title: Text(
                                         'Konfirmasi',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelMedium,
+                                        // style: Theme.of(context)
+                                        //     .textTheme
+                                        //     .labelMedium,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
                                       ),
                                       content: Text(
                                         'Anda yakin ingin menghapus?',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelSmall,
+                                        // style: Theme.of(context)
+                                        //     .textTheme
+                                        //     .labelSmall,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
                                       ),
                                       actions: [
                                         TextButton(
@@ -124,7 +134,12 @@ class ManageCake extends StatelessWidget {
                                             Navigator.of(context)
                                                 .pop(); // Tutup dialog
                                           },
-                                          child: const Text('No'),
+                                          child: const Text(
+                                            'No',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
                                         ),
                                         TextButton(
                                           onPressed: () {
@@ -135,7 +150,12 @@ class ManageCake extends StatelessWidget {
                                             Navigator.of(context)
                                                 .pop(); // Tutup dialog
                                           },
-                                          child: const Text('Yes'),
+                                          child: const Text(
+                                            'Yes',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     );

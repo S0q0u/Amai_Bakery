@@ -8,6 +8,15 @@ class about_page extends StatelessWidget {
     var lebar = MediaQuery.of(context).size.width;
     var tinggi = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.pink,
+        title: Text(
+          'About',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
       body: Center(
         child: ListView(
           padding: const EdgeInsets.all(20.0),
