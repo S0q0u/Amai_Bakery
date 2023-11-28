@@ -30,21 +30,31 @@ class about_page extends StatelessWidget {
               title: Text(
                 'Kelompok 3',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.labelMedium,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             ListTile(
               title: Text(
                 'UAS MOBILE',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.labelMedium,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15
+                ),
               ),
             ),
             ListTile(
               title: Text(
                 'Mobile Programming B 21',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.labelMedium,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15
+                ),
               ),
             ),
           ],

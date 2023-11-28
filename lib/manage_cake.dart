@@ -14,8 +14,7 @@ class ManageCake extends StatelessWidget {
     final cakeData1 = Provider.of<CakeList>(context);
     return Scaffold(
       appBar: AppBar(
-        //backgroundColor: theme.primaryColor,
-        backgroundColor: Colors.pink,
+        backgroundColor: theme.primaryColor,
         title: const Text(
           'Manage Cake',
           style: TextStyle(

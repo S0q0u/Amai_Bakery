@@ -18,6 +18,7 @@ class _EditCakeState extends State<EditCake> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     final cakeProvider = Provider.of<CakeList>(context, listen: false);
 
     // Retrieve the selected cake details based on the passed id
@@ -79,7 +80,7 @@ class _EditCakeState extends State<EditCake> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.pink,
+        backgroundColor: theme.primaryColor,
         title: Text('Edit Cake'),
         actions: [
           IconButton(

@@ -18,7 +18,7 @@ class _history_pageState extends State<history_page> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pink,
-        title: const Text(
+        title: Text(
           'History',
           style: TextStyle(
             color: Colors.white,

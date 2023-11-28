@@ -15,8 +15,7 @@ class home_page extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        //backgroundColor: theme.primaryColor,
-        backgroundColor: Colors.pink,
+        backgroundColor: theme.primaryColor,
         title: Text(
           'AMAI BAKERY',
           style: TextStyle(
@@ -30,11 +29,6 @@ class home_page extends StatelessWidget {
             margin: EdgeInsets.only(right: 10.0),
             child: IconButton(
               onPressed: () {
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     builder: (_) => LoginPage(),
-                //   ),
-                // );
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) => LoginPage(),
@@ -128,23 +122,6 @@ class home_page extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              // Text(
-                              //   cakeData.items[index].name,
-                              //   style: TextStyle(
-                              //     color: Colors.black,
-                              //     fontSize: 18,
-                              //     fontWeight: FontWeight.bold,
-                              //   ),
-                              // ),
-                              // SizedBox(height: 5),
-                              // Text(
-                              //   'Rp ${cakeData.items[index].price.toString()}',
-                              //   style: TextStyle(
-                              //     color: Colors.black,
-                              //     fontSize: 14,
-                              //   ),
-                              // ),
-                              // Add more details if needed
                             ],
                           ),
                         ),
