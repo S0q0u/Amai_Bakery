@@ -70,8 +70,8 @@ class MyApp extends StatelessWidget {
 
       // return MaterialApp(
       //   debugShowCheckedModeBanner: false,
-      //home: const IntroductionPage(),
-      home: const BottomNavigation(),
+      home: const IntroductionPage(),
+      //home: const BottomNavigation(),
       routes: {
         home_page.routeName: (ctx) => home_page(),
         ManageCake.routeName: (ctx) => ManageCake(),
