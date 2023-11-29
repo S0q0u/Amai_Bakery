@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:bakery/main.dart';
 
 class RegisPage extends StatefulWidget {
-
   RegisPage({Key? key}) : super(key: key);
 
   @override
@@ -22,6 +21,7 @@ class _RegisPageState extends State<RegisPage> {
       MaterialPageRoute(builder: (context) => LoginPage()),
     );
   }
+
   void _register(BuildContext context) {
     if (pass == confirmPass) {
       Navigator.pushReplacement(
@@ -34,7 +34,8 @@ class _RegisPageState extends State<RegisPage> {
         builder: (context) {
           return AlertDialog(
             title: const Text('Registration Failed'),
-            content: const Text('Passwords do not match. Please try again...'),
+            content: const Text(
+                'Oops! It seems like some information is missing or incorrect. Please review your entries and try again...'),
             backgroundColor: const Color.fromARGB(255, 248, 226, 230),
             actions: [
               TextButton(
@@ -44,7 +45,7 @@ class _RegisPageState extends State<RegisPage> {
                 child: const Text(
                   'OK',
                   style: TextStyle(
-                    color: Colors.black, 
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -90,7 +91,7 @@ class _RegisPageState extends State<RegisPage> {
                     TextField(
                       controller: name,
                       style: const TextStyle(
-                        fontSize: 14, 
+                        fontSize: 14,
                       ),
                       decoration: const InputDecoration(
                         suffixIcon: Icon(
@@ -109,7 +110,7 @@ class _RegisPageState extends State<RegisPage> {
                     TextField(
                       controller: gmail,
                       style: const TextStyle(
-                        fontSize: 14, 
+                        fontSize: 14,
                       ),
                       decoration: const InputDecoration(
                         suffixIcon: Icon(
@@ -128,7 +129,7 @@ class _RegisPageState extends State<RegisPage> {
                     TextField(
                       controller: pass,
                       style: const TextStyle(
-                        fontSize: 14, 
+                        fontSize: 14,
                       ),
                       obscureText: true,
                       decoration: const InputDecoration(
@@ -148,7 +149,7 @@ class _RegisPageState extends State<RegisPage> {
                     TextField(
                       controller: confirmPass,
                       style: const TextStyle(
-                        fontSize: 14, 
+                        fontSize: 14,
                       ),
                       obscureText: true,
                       decoration: const InputDecoration(
@@ -230,4 +231,3 @@ class _RegisPageState extends State<RegisPage> {
     );
   }
 }
-
