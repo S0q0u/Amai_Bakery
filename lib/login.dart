@@ -28,14 +28,14 @@ class _LoginPageState extends State<LoginPage> {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                const BottomNavigation()), // User navigates to BottomNavigation
+                const BottomNavigation()), 
       );
     } else if (gmail == adminGmail && pass == adminPassword) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) =>
-                const BottomNavigationAdmin()), // Admin navigates to ManagePage
+                const BottomNavigationAdmin()), 
       );
     } else {
       showDialog(
@@ -149,19 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    // const Align(
-                    //   alignment: Alignment.centerRight,
-                    //   child: Text(
-                    //     'Forgot Password?',
-                    //     style: TextStyle(
-                    //       fontWeight: FontWeight.bold,
-                    //       fontSize: 12,
-                    //       color: Color(0xff281537),
-                    //     ),
-                    //   ),
-                    // ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 50),
                     ElevatedButton(
                       onPressed: () {
                         _login(context);

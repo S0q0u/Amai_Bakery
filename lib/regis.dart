@@ -17,7 +17,6 @@ class _RegisPageState extends State<RegisPage> {
   final confirmPass = TextEditingController();
 
   void _login(BuildContext context) {
-    // Add navigation logic to login page here
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => LoginPage()),
@@ -25,13 +24,11 @@ class _RegisPageState extends State<RegisPage> {
   }
   void _register(BuildContext context) {
     if (pass == confirmPass) {
-      // Registration successful
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => BottomNavigation()),
       );
     } else {
-      // Passwords do not match
       showDialog(
         context: context,
         builder: (context) {
