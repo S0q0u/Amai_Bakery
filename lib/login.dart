@@ -26,16 +26,12 @@ class _LoginPageState extends State<LoginPage> {
     if (gmail == userGmail && pass == userPassword) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-            builder: (context) =>
-                const BottomNavigation()), 
+        MaterialPageRoute(builder: (context) => const BottomNavigation()),
       );
     } else if (gmail == adminGmail && pass == adminPassword) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-            builder: (context) =>
-                const BottomNavigationAdmin()), 
+        MaterialPageRoute(builder: (context) => const BottomNavigationAdmin()),
       );
     } else {
       showDialog(
@@ -70,6 +66,14 @@ class _LoginPageState extends State<LoginPage> {
       context,
       MaterialPageRoute(builder: (context) => RegisPage()),
     );
+  }
+
+  bool isPasswordVisible = false;
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      isPasswordVisible = !isPasswordVisible;
+    });
   }
 
   @override
@@ -130,16 +134,21 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 16),
                     TextField(
                       controller: passwordController,
-                      obscureText: true,
+                      obscureText: !isPasswordVisible,
                       style: const TextStyle(
                         fontSize: 14,
                       ),
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(
-                          Icons.visibility_off,
-                          color: Colors.grey,
+                      decoration: InputDecoration(
+                        suffixIcon: GestureDetector(
+                          onTap: _togglePasswordVisibility,
+                          child: Icon(
+                            isPasswordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Colors.grey,
+                          ),
                         ),
-                        label: Text(
+                        label: const Text(
                           'Password',
                           style: TextStyle(
                             fontSize: 15,
