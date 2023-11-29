@@ -21,7 +21,7 @@ class _EditCakeState extends State<EditCake> {
     ThemeData theme = Theme.of(context);
     final cakeProvider = Provider.of<CakeList>(context, listen: false);
 
-    // Retrieve the selected cake details based on the passed id
+    // Menampilkan detail cake
     final selectedCakeId =
         ModalRoute.of(context)?.settings.arguments as String?;
     final selectedCake = cakeProvider.items.firstWhere(
@@ -30,7 +30,7 @@ class _EditCakeState extends State<EditCake> {
           Cake(id: '', name: '', description: '', price: 0.0, imageUrl: ''),
     );
 
-    // Set the retrieved details in the controllers
+    // Set nilai pada detail cake
     _nameController.text = selectedCake.name;
     _descriptionController.text = selectedCake.description;
     //_priceController.text = selectedCake.price.toString();
@@ -44,13 +44,13 @@ class _EditCakeState extends State<EditCake> {
         return;
       }
 
-      // Get values from controllers
+      // Mengambil nilai dari controller
       final name = _nameController.text;
       final description = _descriptionController.text;
       final price = double.parse(_priceController.text);
       final imageUrl = _imageUrlController.text;
 
-      // Create a new Cake object
+      // Membuat objek cake baru
       final newCake = Cake(
         id: selectedCake.id, // Use the existing ID for updates
         name: name,
@@ -59,22 +59,22 @@ class _EditCakeState extends State<EditCake> {
         imageUrl: imageUrl,
       );
 
-      // Add or update the Cake
+      // Tambah atau update data
       if (selectedCake.id.isEmpty) {
-        // If ID is empty, it means it's a new cake
+        // Jika ID kosong, artinya cake baru
         cakeProvider.addCake(newCake);
       } else {
-        // If ID is not empty, it means it's an existing cake being updated
+        // Jika ID tidak kosong, artinya cake sudah ada dan lakukan update
         cakeProvider.updateCake(selectedCake.id, newCake);
       }
 
-      // Clear controllers
+      // Bersihkan controller
       _nameController.clear();
       _descriptionController.clear();
       _priceController.clear();
       _imageUrlController.clear();
 
-      // Navigate back
+      // Navigasi kembali
       Navigator.of(context).pop();
     }
 
