@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "718695730255",
+    "project_id": "amai-af4b2",
+    "storage_bucket": "amai-af4b2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:718695730255:android:cfc392e00f1fa31a5bae3a",
+        "android_client_info": {
+          "package_name": "com.example.bakery"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfW-BLf11xTWFbruvZb1h0-e1iP7MAcZw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

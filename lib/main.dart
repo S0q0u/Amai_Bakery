@@ -1,3 +1,4 @@
+import 'package:bakery/login.dart';
 import 'package:bakery/manage_cake.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,52 +11,46 @@ import 'about_page.dart';
 import 'edit_cake.dart';
 import 'theme_mode_data.dart';
 import 'IntroductionPage.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() => runApp(
-  MultiProvider(
-    providers: [
-      ChangeNotifierProvider(
-        create: (BuildContext context) => OrderData(),
-      ),
-      ChangeNotifierProvider(
-        create: (BuildContext context) => CakeList(),
-        //child: input_bakery_page(),
-      ),
-      ChangeNotifierProvider(
-        create: (BuildContext context) => ThemeModeData(),
-      ),
-    ],
-    child: MyApp(),
-  ),
-);
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const IntroductionPage(),
-      //home: const BottomNavigation(),
-      routes: {
-        home_page.routeName: (ctx) => home_page(),
-        ManageCake.routeName: (ctx) => ManageCake(),
-        EditCake.routeName: (ctx) => EditCake(),
-      },
-      theme: ThemeData(
-        // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        // useMaterial3: true,
-        primarySwatch: Colors.pink,
-        primaryColor: Colors.pink,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (BuildContext context) => CakeList()),
+        ChangeNotifierProvider(create: (BuildContext context) => OrderData()),
+        ChangeNotifierProvider(
+            create: (BuildContext context) => ThemeModeData()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: const IntroductionPage(),
+        routes: {
+          home_page.routeName: (ctx) => home_page(),
+          ManageCake.routeName: (ctx) => const ManageCake(),
+          EditCake.routeName: (ctx) => EditCake(),
+        },
+        theme: ThemeData(
+          primarySwatch: Colors.pink,
+          primaryColor: Colors.pink,
+        ),
       ),
-
     );
   }
 }
 
 class BottomNavigationAdmin extends StatefulWidget {
-  const BottomNavigationAdmin({Key? key});
+  const BottomNavigationAdmin({super.key});
 
   @override
   _BottomNavigationAdminState createState() => _BottomNavigationAdminState();
@@ -106,7 +101,7 @@ class _BottomNavigationAdminState extends State<BottomNavigationAdmin> {
 }
 
 class BottomNavigation extends StatefulWidget {
-  const BottomNavigation({Key? key});
+  const BottomNavigation({super.key});
 
   @override
   _BottomNavigationState createState() => _BottomNavigationState();
@@ -122,7 +117,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
     const history_page(),
     const about_page(),
   ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +167,7 @@ class OrderData extends ChangeNotifier {
   OrderData._internal();
 
   // List kosong untuk pesanan
-  List<Map<String, dynamic>> _orders = [];
+  final List<Map<String, dynamic>> _orders = [];
 
   // Fungsi untuk menyimpan daftar pesanan
   void addOrder(Map<String, dynamic> order) {

@@ -27,9 +27,8 @@ class _InputPageState extends State<input_bakery_page> {
   int getTotal() {
     int total = 0;
     for (String item in quantities.keys) {
-      total += (cakeList.items
-          .firstWhere((cake) => cake.name == item)
-          .price * quantities[item]!)
+      total += (cakeList.items.firstWhere((cake) => cake.name == item).price *
+              quantities[item]!)
           .toInt();
     }
     return total;
@@ -58,9 +57,8 @@ class _InputPageState extends State<input_bakery_page> {
       'items': List<Map<String, dynamic>>.from(quantities.entries.map((entry) {
         String itemName = entry.key;
         int itemQuantity = entry.value;
-        double itemPrice = cakeList.items
-            .firstWhere((cake) => cake.name == itemName)
-            .price;
+        double itemPrice =
+            cakeList.items.firstWhere((cake) => cake.name == itemName).price;
 
         return {
           'item': itemName,
@@ -78,13 +76,13 @@ class _InputPageState extends State<input_bakery_page> {
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: Colors.pink,
-            title: Text(
+            title: const Text(
               'Peringatan',
               style: TextStyle(
                 color: Colors.white,
               ),
             ),
-            content: Text(
+            content: const Text(
               'Nama masih kosong.',
               style: TextStyle(
                 color: Colors.white,
@@ -95,7 +93,7 @@ class _InputPageState extends State<input_bakery_page> {
                 onPressed: () {
                   Navigator.of(context).pop(); // Close the dialog
                 },
-                child: Text(
+                child: const Text(
                   'OK',
                   style: TextStyle(
                     color: Colors.white,
@@ -107,19 +105,21 @@ class _InputPageState extends State<input_bakery_page> {
         },
       );
       return false;
-    } else if (phoneNumber.text.isEmpty || double.tryParse(phoneNumber.text) == null || phoneNumber.text.length < 10){
+    } else if (phoneNumber.text.isEmpty ||
+        double.tryParse(phoneNumber.text) == null ||
+        phoneNumber.text.length < 10) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: Colors.pink,
-            title: Text(
+            title: const Text(
               'Peringatan',
               style: TextStyle(
                 color: Colors.white,
               ),
             ),
-            content: Text(
+            content: const Text(
               'Nomor Hp tidak valid. Harap masukkan nomor yang valid.',
               style: TextStyle(
                 color: Colors.white,
@@ -130,7 +130,7 @@ class _InputPageState extends State<input_bakery_page> {
                 onPressed: () {
                   Navigator.of(context).pop(); // Close the dialog
                 },
-                child: Text(
+                child: const Text(
                   'OK',
                   style: TextStyle(
                     color: Colors.white,
@@ -148,13 +148,13 @@ class _InputPageState extends State<input_bakery_page> {
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: Colors.pink,
-            title: Text(
+            title: const Text(
               'Peringatan',
               style: TextStyle(
                 color: Colors.white,
               ),
             ),
-            content: Text(
+            content: const Text(
               'Alamat masih kosong',
               style: TextStyle(
                 color: Colors.white,
@@ -165,7 +165,7 @@ class _InputPageState extends State<input_bakery_page> {
                 onPressed: () {
                   Navigator.of(context).pop(); // Close the dialog
                 },
-                child: Text(
+                child: const Text(
                   'OK',
                   style: TextStyle(
                     color: Colors.white,
@@ -183,13 +183,13 @@ class _InputPageState extends State<input_bakery_page> {
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: Colors.pink,
-            title: Text(
+            title: const Text(
               'Peringatan',
               style: TextStyle(
                 color: Colors.white,
               ),
             ),
-            content: Text(
+            content: const Text(
               'Belum ada kue yang dipilih.',
               style: TextStyle(
                 color: Colors.white,
@@ -200,7 +200,7 @@ class _InputPageState extends State<input_bakery_page> {
                 onPressed: () {
                   Navigator.of(context).pop(); // Close the dialog
                 },
-                child: Text(
+                child: const Text(
                   'OK',
                   style: TextStyle(
                     color: Colors.white,
@@ -213,7 +213,6 @@ class _InputPageState extends State<input_bakery_page> {
       );
       return false;
     }
-
 
     // Mengambil waktu saat tombol "Pesan Sekarang" diklik
     DateTime orderDate = DateTime.now();
@@ -243,7 +242,7 @@ class _InputPageState extends State<input_bakery_page> {
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.pink,
-          title: Text(
+          title: const Text(
             'NOTA PESANAN',
             style: TextStyle(
               color: Colors.white,
@@ -256,19 +255,19 @@ class _InputPageState extends State<input_bakery_page> {
             children: [
               Text(
                 'Nama: $nameValue',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                 ),
               ),
               Text(
                 'Nomor Telepon: $phoneNumberValue',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                 ),
               ),
               Text(
                 'Alamat: $addressValue',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                 ),
               ),
@@ -279,28 +278,29 @@ class _InputPageState extends State<input_bakery_page> {
                 ),
               ),
               for (String item in quantities.keys)
-              Text(
-                //'$item: ${quantities[item]} x Rp ${menuPrices[item]}',
-                '$item: ${quantities[item]} x Rp ${cakeList.items.firstWhere((cake) => cake.name == item).price}',
-                style: TextStyle(
-                  color: Colors.white,
+                Text(
+                  //'$item: ${quantities[item]} x Rp ${menuPrices[item]}',
+                  '$item: ${quantities[item]} x Rp ${cakeList.items.firstWhere((cake) => cake.name == item).price}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-              Text(''
+              Text(
+                ''
                 'Total: Rp ${getTotal()}',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                 ),
               ),
               Text(
                 'Tanggal Pemesanan: $day/$month/$year',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                 ),
               ),
               Text(
                 'Waktu Pemesanan: $hour:$minute',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                 ),
               ),
@@ -315,7 +315,7 @@ class _InputPageState extends State<input_bakery_page> {
                 Navigator.of(context).pop();
                 kosong();
               },
-              child: Text(
+              child: const Text(
                 'Tutup',
                 style: TextStyle(
                   color: Colors.white,
@@ -353,15 +353,13 @@ class _InputPageState extends State<input_bakery_page> {
               children: <Widget>[
                 TextField(
                   controller: name,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Nama',
-                    labelStyle: TextStyle(
-                        fontSize: 15
-                    ),
+                    labelStyle: TextStyle(fontSize: 15),
                     filled: true, // Mengaktifkan pengisian latar belakang
                     fillColor: Colors.white, // Warna latar belakang
-                    border: const OutlineInputBorder(),
-                    focusedBorder: const OutlineInputBorder(
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: Color.fromARGB(255, 248, 30, 67),
                       ), // Border ketika fokus
@@ -375,15 +373,13 @@ class _InputPageState extends State<input_bakery_page> {
                 TextField(
                   controller: phoneNumber,
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Nomor Telepon',
-                    labelStyle: TextStyle(
-                        fontSize: 15
-                    ),
+                    labelStyle: TextStyle(fontSize: 15),
                     filled: true, // Mengaktifkan pengisian latar belakang
                     fillColor: Colors.white, // Warna latar belakang
-                    border: const OutlineInputBorder(),
-                    focusedBorder: const OutlineInputBorder(
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: Color.fromARGB(255, 248, 30, 67),
                       ), // Border ketika fokus
@@ -397,16 +393,14 @@ class _InputPageState extends State<input_bakery_page> {
                 TextField(
                   controller: address,
                   maxLines: 3,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Alamat',
-                    labelStyle: TextStyle(
-                      fontSize: 15
-                    ),
+                    labelStyle: TextStyle(fontSize: 15),
                     filled: true, // Mengaktifkan pengisian latar belakang
                     fillColor: Colors.white, // Warna latar belakang
                     border:
-                        const OutlineInputBorder(), // Atau gunakan jenis border yang sesuai dengan kebutuhan Anda
-                    focusedBorder: const OutlineInputBorder(
+                        OutlineInputBorder(), // Atau gunakan jenis border yang sesuai dengan kebutuhan Anda
+                    focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: Color.fromARGB(255, 248, 30, 67),
                       ), // Border ketika fokus
@@ -430,10 +424,8 @@ class _InputPageState extends State<input_bakery_page> {
                         Text(
                           cake.name,
                           //style: Theme.of(context).textTheme.labelMedium,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15
-                          ),
+                          style: const TextStyle(
+                              color: Colors.black, fontSize: 15),
                         ),
                         Row(
                           children: <Widget>[
@@ -463,10 +455,8 @@ class _InputPageState extends State<input_bakery_page> {
                             Text(
                               //'${quantities[item] ?? 0}',
                               '${quantities[cake.name] ?? 0}',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15
-                              ),
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 15),
                             ),
                             const SizedBox(width: 10.0),
                             FloatingActionButton(

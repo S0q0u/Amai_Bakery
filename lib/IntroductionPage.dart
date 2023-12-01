@@ -35,7 +35,8 @@ class _IntroductionPageState extends State<IntroductionPage> {
           dotsDecorator: const DotsDecorator(
             size: Size(10.0, 10.0),
             color: Colors.black, // Warna default indikator
-            activeColor: Color.fromARGB(255, 248, 30,67), // Warna indikator aktif (yang menunjukkan halaman saat ini)
+            activeColor: Color.fromARGB(255, 248, 30,
+                67), // Warna indikator aktif (yang menunjukkan halaman saat ini)
           ),
           showSkipButton: true,
           skip: Text(

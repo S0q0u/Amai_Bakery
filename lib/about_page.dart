@@ -10,7 +10,7 @@ class about_page extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pink,
-        title: Text(
+        title: const Text(
           'About',
           style: TextStyle(
             color: Colors.white,
@@ -26,35 +26,29 @@ class about_page extends StatelessWidget {
               radius: lebar < tinggi ? lebar * 0.2 : tinggi * 0.4,
             ),
             const SizedBox(height: 20),
-            ListTile(
+            const ListTile(
               title: Text(
                 'Kelompok 3',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 30,
+                  color: Colors.black,
+                  fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            ListTile(
+            const ListTile(
               title: Text(
                 'UAS MOBILE',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15
-                ),
+                style: TextStyle(color: Colors.black, fontSize: 15),
               ),
             ),
-            ListTile(
+            const ListTile(
               title: Text(
                 'Mobile Programming B 21',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15
-                ),
+                style: TextStyle(color: Colors.black, fontSize: 15),
               ),
             ),
           ],

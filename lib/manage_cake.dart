@@ -80,7 +80,7 @@ class ManageCake extends StatelessWidget {
                         Text(
                           cakeData1.items[index].name,
                           //style: Theme.of(context).textTheme.bodyMedium,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
@@ -109,7 +109,7 @@ class ManageCake extends StatelessWidget {
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                       backgroundColor: Colors.pink,
-                                      title: Text(
+                                      title: const Text(
                                         'Konfirmasi',
                                         // style: Theme.of(context)
                                         //     .textTheme
@@ -118,7 +118,7 @@ class ManageCake extends StatelessWidget {
                                           color: Colors.white,
                                         ),
                                       ),
-                                      content: Text(
+                                      content: const Text(
                                         'Anda yakin ingin menghapus?',
                                         // style: Theme.of(context)
                                         //     .textTheme
