@@ -19,7 +19,7 @@ class _RegisPageState extends State<RegisPage> {
   final _formKey = GlobalKey<FormState>();
   bool _loading = false;
 
-  final auth _auth = auth(); // Buat instance dari class Auth
+  final authUser _auth = authUser(); // Buat instance dari class Auth
 
   void handleSubmit() async {
     if (!_formKey.currentState!.validate()) return;

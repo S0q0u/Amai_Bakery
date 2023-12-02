@@ -23,6 +23,7 @@ class _InputPageState extends State<input_bakery_page> {
   // Map untuk menyimpan jumlah item yang ingin dibeli
   Map<String, int> quantities = {};
 
+
   // Fungsi untuk mengembalikan nilai jumlah yang harus dibayar
   int getTotal() {
     int total = 0;

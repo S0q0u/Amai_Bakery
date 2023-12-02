@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'cake_collection.dart';
+import 'auth.dart';
 
 class EditCake extends StatefulWidget {
   static const routeName = '/EditCake';
@@ -16,29 +17,21 @@ class _EditCakeState extends State<EditCake> {
   final _priceController = TextEditingController();
   final _imageUrlController = TextEditingController();
 
+
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     final cakeProvider = Provider.of<CakeList>(context, listen: false);
 
     // Menampilkan detail cake
-    final selectedCakeId =
-        ModalRoute.of(context)?.settings.arguments as String?;
+    final selectedCakeId = ModalRoute.of(context)?.settings.arguments as String?;
     final selectedCake = cakeProvider.items.firstWhere(
-      (cake) => cake.id == selectedCakeId,
+          (cake) => cake.id == selectedCakeId,
       orElse: () =>
           Cake(id: '', name: '', description: '', price: 0.0, imageUrl: ''),
     );
 
-    // Set nilai pada detail cake
-    _nameController.text = selectedCake.name;
-    _descriptionController.text = selectedCake.description;
-    //_priceController.text = selectedCake.price.toString();
-    _priceController.text =
-        selectedCake.id.isEmpty ? '' : selectedCake.price.toString();
-    _imageUrlController.text = selectedCake.imageUrl;
-
-    void _saveForm() {
+    void _saveForm() async {
       final isValid = _formKey.currentState?.validate() ?? false;
       if (!isValid) {
         return;
@@ -59,13 +52,17 @@ class _EditCakeState extends State<EditCake> {
         imageUrl: imageUrl,
       );
 
-      // Tambah atau update data
+      // Tambah atau update data di Firestore
+      final firestoreService = FirebaseServiceCake();
       if (selectedCake.id.isEmpty) {
         // Jika ID kosong, artinya cake baru
+        //await firestoreService.addCake(newCake.toJson());
         cakeProvider.addCake(newCake);
       } else {
-        // Jika ID tidak kosong, artinya cake sudah ada dan lakukan update
-        cakeProvider.updateCake(selectedCake.id, newCake);
+        // Jika ID tidak kosong, artinya update cake yang sudah ada
+        //cakeProvider.updateCake(selectedCake.id, newCake);
+
+        // GATK TAUUUUUUUU
       }
 
       // Bersihkan controller
@@ -77,6 +74,7 @@ class _EditCakeState extends State<EditCake> {
       // Navigasi kembali
       Navigator.of(context).pop();
     }
+
 
     return Scaffold(
       appBar: AppBar(

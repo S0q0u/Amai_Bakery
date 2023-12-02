@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'cake_collection.dart';
 
-class auth {
+class authUser {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   Future<void> regis(
       String nama, String email, String password, String confirmPass) async {
@@ -34,5 +36,36 @@ class auth {
       email: email,
       password: password,
     );
+  }
+}
+
+class FirebaseServiceCake {
+  final FirebaseFirestore _firestoreCake = FirebaseFirestore.instance;
+
+  Stream<List<Cake>> getCakesStream() {
+    return _firestoreCake
+        .collection('cakes')
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+        .map((doc) => Cake(
+      id: doc.id,
+      name: doc['name'],
+      description: doc['description'],
+      price: doc['price'],
+      imageUrl: doc['imageUrl'],
+    ))
+        .toList());
+  }
+
+  Future<void> addCake(Map<String, dynamic> cakeData) async {
+    await _firestoreCake.collection('cakes').add(cakeData);
+  }
+
+  Future<void> updateCake(String id, Map<String, dynamic> updatedCakeData) async {
+    await _firestoreCake.collection('cakes').doc(id).update(updatedCakeData);
+  }
+
+  Future<void> deleteCake(String id) async {
+    await _firestoreCake.collection('cakes').doc(id).delete();
   }
 }

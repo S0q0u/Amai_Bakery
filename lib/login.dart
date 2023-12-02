@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _ctrlEmail = TextEditingController();
   final TextEditingController _ctrlPassword = TextEditingController();
 
-  auth _auth = auth(); // Buat instance dari class Auth
+  authUser _auth = authUser(); // Buat instance dari class Auth
 
   handleSubmit() async {
     if (!_formKey.currentState!.validate()) return;
