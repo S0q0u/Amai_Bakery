@@ -207,7 +207,7 @@ class _RegisPageState extends State<RegisPage> {
                           onPressed: () => handleSubmit(),
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
-                                const Color.fromARGB(255, 248, 30, 67),
+                            const Color.fromARGB(255, 248, 30, 67),
                             minimumSize: const Size(250, 50),
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 16),
@@ -217,17 +217,17 @@ class _RegisPageState extends State<RegisPage> {
                           ),
                           child: _loading
                               ? const SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                    strokeWidth: 2,
-                                  ),
-                                )
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          )
                               : const Text(
-                                  'Simpan',
-                                  style: TextStyle(color: Colors.white),
-                                ),
+                            'Simpan',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                         const SizedBox(height: 20),
                         Align(

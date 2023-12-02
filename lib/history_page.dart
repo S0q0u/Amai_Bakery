@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'main.dart';
 
 class history_page extends StatefulWidget {
@@ -10,8 +12,15 @@ class history_page extends StatefulWidget {
 }
 
 class _history_pageState extends State<history_page> {
-  // list orders untuk menyimpan daftar pesanan
-  List<Map<String, dynamic>> orders = OrderData().orders;
+  late User? currentUser;
+  late CollectionReference userHistoryCollection;
+
+  @override
+  void initState() {
+    super.initState();
+    currentUser = FirebaseAuth.instance.currentUser;
+    userHistoryCollection = FirebaseFirestore.instance.collection('users/${currentUser?.uid}/History');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +35,29 @@ class _history_pageState extends State<history_page> {
         ),
       ),
       // backgroundColor: const Color.fromARGB(255, 240, 202, 209),
-      body: ListView.builder(
-        // Menghitung jumlah item sesuai panjang list
-        itemCount: orders.length,
-        // Mengembalikan widget HistoryCard setiap item
-        itemBuilder: (context, index) {
-          return HistoryCard(order: orders[index]);
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: userHistoryCollection.snapshots() as Stream<QuerySnapshot<Map<String, dynamic>>>,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
+            return Center(
+              child: Text('Tidak ada data history.'),
+            );
+          } else {
+            List<QueryDocumentSnapshot<Map<String, dynamic>>> documents = snapshot.data!.docs;
+
+            return ListView.builder(
+              // Menghitung jumlah item sesuai panjang list
+              itemCount: documents.length,
+              // Mengembalikan widget HistoryCard setiap item
+              itemBuilder: (context, index) {
+                return HistoryCard(order: documents[index].data() as Map<String, dynamic>);
+              },
+            );
+          }
         },
       ),
     );
@@ -78,28 +104,21 @@ class _HistoryCardState extends State<HistoryCard> {
               // Mengatur nama menjadi uppercase
               'CUSTOMER: ${order['name'].toString().toUpperCase()}',
               textAlign: TextAlign.center,
-              // style: const TextStyle(
-              //   fontSize: 20,
-              //   fontWeight: FontWeight.bold,
-              // ),
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             subtitle: Text(
               'Total: Rp ${order['total']}',
               textAlign: TextAlign.center,
-              // style: const TextStyle(
-              //   fontSize: 16,
-              //   color: Colors.red,
-              // ),
               style: Theme.of(context).textTheme.bodySmall,
             ),
             // Button Ekspansi
             trailing: IconButton(
               icon: Icon(
-                  isExpanded
-                      ? CupertinoIcons.arrow_up
-                      : CupertinoIcons.arrow_down,
-                  color: Colors.black),
+                isExpanded
+                    ? CupertinoIcons.arrow_up
+                    : CupertinoIcons.arrow_down,
+                color: Colors.black,
+              ),
               onPressed: toggleExpansion,
             ),
           ),
@@ -111,16 +130,10 @@ class _HistoryCardState extends State<HistoryCard> {
                   ListTile(
                     title: Text(
                       '${item['item']} x ${item['quantity']}',
-                      // style: const TextStyle(
-                      //   fontStyle: FontStyle.italic,
-                      // ),
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     subtitle: Text(
                       'Price: Rp ${item['price']}',
-                      // style: const TextStyle(
-                      //   fontStyle: FontStyle.italic,
-                      // ),
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),

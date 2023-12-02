@@ -1,11 +1,14 @@
 // ignore_for_file: library_private_types_in_public_api, use_key_in_widget_constructors, camel_case_types
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'main.dart';
 import 'cake_collection.dart';
 import 'auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class input_bakery_page extends StatefulWidget {
   const input_bakery_page({Key? key});
@@ -20,35 +23,50 @@ class _InputPageState extends State<input_bakery_page> {
   final address = TextEditingController();
   // CakeList cakeList = CakeList();
   late CakeList cakeList;
+  //Cake? _selectedCake;
+
+  Future<void> simpanHistory(Map<String, dynamic> order) async {
+    try {
+      // Dapatkan UID pengguna yang saat ini terautentikasi
+      String uidPengguna = FirebaseAuth.instance.currentUser!.uid;
+
+      // Tambahkan data pesanan ke dokumen Firestore pengguna
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uidPengguna)
+          .collection('History')
+          .add(order);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Pesanan berhasil ditambahkan")),
+      );
+
+      // Optionally, you can also update the UI or navigate to the next screen after saving the history.
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Terjadi kesalahan. Silakan coba lagi.")),
+      );
+    }
+  }
+
+
 
   // Map untuk menyimpan jumlah item yang ingin dibeli
   Map<String, int> quantities = {};
 
-
-  // Fungsi untuk mengembalikan nilai jumlah yang harus dibayar
-  // int getTotal() {
-  //   int total = 0;
-  //   for (String item in quantities.keys) {
-  //     total += (cakeList.items.firstWhere((cake) => cake.name == item).price *
-  //             quantities[item]!)
-  //         .toInt();
-  //   }
-  //   return total;
-  // }
-  // int getTotal() {
-  //   int total = 0;
-  //   for (String item in quantities.keys) {
-  //     // Mengambil harga dari kue yang dipilih berdasarkan ID
-  //     double itemPrice = cakeList.selectedCake?.price ?? 0.0;
-  //
-  //     total += (itemPrice * quantities[item]!).toInt();
-  //   }
-  //   return total;
-  // }
   int getTotal() {
     int total = 0;
     for (String item in quantities.keys) {
-      double itemPrice = cakeList.selectedCake?.price ?? 0.0;
+      double itemPrice = cakeList.selectedCakes
+          .firstWhere((cake) => cake.name == item, orElse: () => Cake(
+        id: '',
+        name: '',
+        description: '',
+        price: 0.0,
+        imageUrl: '',
+      ))
+          .price;
+
       total += (itemPrice * quantities[item]!).toInt();
     }
     return total;
@@ -70,7 +88,6 @@ class _InputPageState extends State<input_bakery_page> {
     String addressValue = address.text;
 
     // Map untuk menyimpan data pesanan
-    // Map untuk menyimpan data pesanan
     Map<String, dynamic> order = {
       'name': nameValue,
       'phoneNumber': phoneNumberValue,
@@ -78,7 +95,7 @@ class _InputPageState extends State<input_bakery_page> {
       'items': List<Map<String, dynamic>>.from(quantities.entries.map((entry) {
         String itemName = entry.key;
         int itemQuantity = entry.value;
-        double itemPrice = cakeList.selectedCake?.price ?? 0.0;
+        double itemPrice = getCakePrice(itemName);
 
         return {
           'item': itemName,
@@ -234,6 +251,7 @@ class _InputPageState extends State<input_bakery_page> {
       return false;
     }
 
+
     // Mengambil waktu saat tombol "Pesan Sekarang" diklik
     DateTime orderDate = DateTime.now();
     order['orderDate'] = orderDate;
@@ -254,9 +272,11 @@ class _InputPageState extends State<input_bakery_page> {
     // Menyimpan data pesanan
     OrderData orderData = Provider.of<OrderData>(context, listen: false);
     orderData.addOrder(order);
-    // OrderData().addOrder(order);
 
-    // Menampilkan nota
+    // Menyimpan history ke Firestore
+    simpanHistory(order);
+
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -298,15 +318,26 @@ class _InputPageState extends State<input_bakery_page> {
                 ),
               ),
               for (String item in quantities.keys)
-                Text(
-                  '$item: ${quantities[item]} x Rp ${cakeList.selectedCake?.price ?? 0.0}',
-                  style: const TextStyle(
-                    color: Colors.white,
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '$item:',
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      '  ${quantities[item]} x Rp ${getCakePrice(item)}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+
+                  ],
                 ),
 
               Text(
-                ''
                 'Total: Rp ${getTotal()}',
                 style: const TextStyle(
                   color: Colors.white,
@@ -349,6 +380,22 @@ class _InputPageState extends State<input_bakery_page> {
     );
     return true;
   }
+
+  double getCakePrice(String itemName) {
+    Cake? selectedCake = cakeList.selectedCakes.firstWhere(
+          (cake) => cake.name == itemName,
+      orElse: () => Cake(
+        id: '',
+        name: '',
+        description: '',
+        price: 0.0,
+        imageUrl: '',
+      ),
+    );
+
+    return selectedCake.price;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -442,74 +489,75 @@ class _InputPageState extends State<input_bakery_page> {
                         return Text('Tidak ada data kue.');
                       } else {
                         List<Cake> cakes = snapshot.data!;
-                        print('Number of cakes: ${cakes.length}');
-
-                        for (Cake cake in cakes) {
-                          print('Cake: ${cake.name}, Price: ${cake.price}');
-                        }
                         return ListView.builder(
                           shrinkWrap: true,
                           itemCount: cakes.length,
                           itemBuilder: (context, index) {
                             Cake cake = cakes[index];
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  cake.name,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 15,
-                                  ),
-                                ),
+                            return Column(
+                              children: [
                                 Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    FloatingActionButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          if (quantities.containsKey(cake.name) &&
-                                              quantities[cake.name]! > 0) {
-                                            quantities[cake.name] =
-                                                quantities[cake.name]! - 1;
-                                          }
-                                        });
-                                      },
-                                      mini: true,
-                                      backgroundColor:
-                                      const Color.fromARGB(255, 248, 30, 67),
-                                      child: const Icon(
-                                        CupertinoIcons.minus,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 10.0),
                                     Text(
-                                      '${quantities[cake.name] ?? 0}',
+                                      cake.name,
                                       style: const TextStyle(
-                                          color: Colors.black, fontSize: 15),
-                                    ),
-                                    const SizedBox(width: 10.0),
-                                    FloatingActionButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          if (quantities.containsKey(cake.name)) {
-                                            quantities[cake.name] =
-                                                quantities[cake.name]! + 1;
-                                          } else {
-                                            quantities[cake.name] = 1;
-                                          }
-                                        });
-                                      },
-                                      mini: true,
-                                      backgroundColor:
-                                      const Color.fromARGB(255, 248, 30, 67),
-                                      child: const Icon(
-                                        CupertinoIcons.add,
-                                        color: Colors.white,
+                                        color: Colors.black,
+                                        fontSize: 15,
                                       ),
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        FloatingActionButton(
+                                          onPressed: () {
+                                            context.read<CakeList>().selectCake(cake);
+                                            setState(() {
+                                              if (quantities.containsKey(cake.name)) {
+                                                quantities[cake.name] = quantities[cake.name]! - 1;
+                                              } else {
+                                                quantities[cake.name] = 1;
+                                              }
+                                            });
+                                          },
+                                          mini: true,
+                                          backgroundColor:
+                                          const Color.fromARGB(255, 248, 30, 67),
+                                          child: const Icon(
+                                            CupertinoIcons.minus,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10.0),
+                                        Text(
+                                          '${quantities[cake.name] ?? 0}',
+                                          style: const TextStyle(
+                                              color: Colors.black, fontSize: 15),
+                                        ),
+                                        const SizedBox(width: 10.0),
+                                        FloatingActionButton(
+                                          onPressed: () {
+                                            context.read<CakeList>().selectCake(cake);
+                                            setState(() {
+                                              if (quantities.containsKey(cake.name)) {
+                                                quantities[cake.name] = quantities[cake.name]! + 1;
+                                              } else {
+                                                quantities[cake.name] = 1;
+                                              }
+                                            });
+                                          },
+                                          mini: true,
+                                          backgroundColor:
+                                          const Color.fromARGB(255, 248, 30, 67),
+                                          child: const Icon(
+                                            CupertinoIcons.add,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
-                                )
+                                ),
+                                const SizedBox(height: 10), // Add a SizedBox between each cake
                               ],
                             );
                           },

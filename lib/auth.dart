@@ -4,24 +4,33 @@ import 'cake_collection.dart';
 
 class authUser {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  Future<void> regis(
-      String nama, String email, String password, String confirmPass) async {
+  Future<void> regis(String nama, String email, String password, String confirmPass) async {
     try {
       if (password != confirmPass) {
         throw 'Password and confirm password do not match';
       }
 
-      final UserCredential userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final regisUser = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      if (userCredential.user != null) {
-        User? firebaseUser = userCredential.user;
-        // Simpan nama pengguna ke dalam dokumen user Firebase
-        await firebaseUser!.updateDisplayName(nama);
+      final user = regisUser.user;
+      final uidPengguna = user?.uid;
+
+      if (user != null) {
+        // Update display name
+        await user.updateDisplayName(nama);
         print('User registered successfully with name: $nama');
+
+        // Store additional user data in Firestore
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(uidPengguna);
+        //     .collection('nama_user')
+        //     .add({
+        // 'nama': nama,
+        // });
       } else {
         throw 'User registration failed';
       }
@@ -79,6 +88,8 @@ class FirebaseServiceCake {
       return null;
     }
   }
+
+
 
 
   Future<void> addCake(Map<String, dynamic> cakeData) async {

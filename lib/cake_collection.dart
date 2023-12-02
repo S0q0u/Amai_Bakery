@@ -30,6 +30,33 @@ class CakeList with ChangeNotifier {
 
   Cake? get selectedCake => _selectedCake; // tambahkan getter untuk selectedCake
 
+  // void selectCake(Cake cake) {
+  //   _selectedCake = cake;
+  //   notifyListeners();
+  // }
+  Set<Cake> _selectedCakes = {};
+
+  Set<Cake> get selectedCakes => _selectedCakes;
+
+  void selectCake(Cake cake) {
+    _selectedCakes.add(cake);
+    notifyListeners();
+  }
+
+
+  void unselectCake(Cake cake) {
+    _selectedCakes.remove(cake);
+    notifyListeners();
+  }
+
+
+  // void setSelectedCake(Cake cake) {
+  //   _selectedCake = cake;
+  //   notifyListeners();
+  // }
+  // set selectedCake(Cake? cake) {
+  //   _selectedCake = cake;
+  // }
 
 
   // Add
@@ -79,6 +106,7 @@ class CakeList with ChangeNotifier {
     await _firebaseServiceCake.updateCake(id, updatedCake);
     notifyListeners();
   }
+
 
   // Hapus
   // void deleteCake(String id) {
