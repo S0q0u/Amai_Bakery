@@ -23,13 +23,8 @@ class _EditCakeState extends State<EditCake> {
     ThemeData theme = Theme.of(context);
     final cakeProvider = Provider.of<CakeList>(context, listen: false);
 
-    // Menampilkan detail cake
     final selectedCakeId = ModalRoute.of(context)?.settings.arguments as String?;
-    final selectedCake = cakeProvider.items.firstWhere(
-          (cake) => cake.id == selectedCakeId,
-      orElse: () =>
-          Cake(id: '', name: '', description: '', price: 0.0, imageUrl: ''),
-    );
+
 
     void _saveForm() async {
       final isValid = _formKey.currentState?.validate() ?? false;
@@ -45,24 +40,23 @@ class _EditCakeState extends State<EditCake> {
 
       // Membuat objek cake baru
       final newCake = Cake(
-        id: selectedCake.id, // Use the existing ID for updates
+        //id: selectedCake.id, // Use the existing ID for updates
+        id: DateTime.now().toString(),
         name: name,
         description: description,
         price: price,
         imageUrl: imageUrl,
       );
 
-      // Tambah atau update data di Firestore
+
+      //Tambah atau update data di Firestore
       final firestoreService = FirebaseServiceCake();
-      if (selectedCake.id.isEmpty) {
+      if (selectedCakeId == null || selectedCakeId.isEmpty) {
         // Jika ID kosong, artinya cake baru
-        //await firestoreService.addCake(newCake.toJson());
-        cakeProvider.addCake(newCake);
+        await cakeProvider.addCake(newCake);
       } else {
         // Jika ID tidak kosong, artinya update cake yang sudah ada
-        //cakeProvider.updateCake(selectedCake.id, newCake);
-
-        // GATK TAUUUUUUUU
+        await cakeProvider.updateCake(selectedCakeId, newCake);
       }
 
       // Bersihkan controller
@@ -74,6 +68,27 @@ class _EditCakeState extends State<EditCake> {
       // Navigasi kembali
       Navigator.of(context).pop();
     }
+
+    // Fetch the selected cake details from Firestore and set them to controllers
+    Future<void> _loadCakeDetails() async {
+      if (selectedCakeId != null) {
+        final firestoreService = FirebaseServiceCake();
+        final selectedCake = await firestoreService.getCakeById(selectedCakeId);
+
+        if (selectedCake != null) {
+          _nameController.text = selectedCake.name;
+          _descriptionController.text = selectedCake.description;
+          _priceController.text = selectedCake.price.toString();
+          _imageUrlController.text = selectedCake.imageUrl;
+        }
+      }
+    }
+
+    // Load cake details when the widget is built
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _loadCakeDetails();
+    });
+
 
 
     return Scaffold(

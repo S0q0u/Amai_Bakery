@@ -21,54 +21,16 @@ class Cake with ChangeNotifier {
 class CakeList with ChangeNotifier {
   final FirebaseServiceCake _firebaseServiceCake = FirebaseServiceCake();
   // Properti stream untuk mendengarkan perubahan pada daftar kue
-  StreamController<List<Cake>> _cakesController =
-  StreamController<List<Cake>>.broadcast();
+  StreamController<List<Cake>> _cakesController = StreamController<List<Cake>>.broadcast();
 
   // Stream untuk digunakan oleh StreamBuilder di ManageCake
   Stream<List<Cake>> get cakesStream => _cakesController.stream;
 
-  final List<Cake> _items = [
-    // Cake(
-    //   id: 'c1',
-    //   name: 'Roti Buaya',
-    //   description: 'tessssssssssss',
-    //   price: 200000,
-    //   imageUrl: 'https://i.ibb.co/cb2DdRy/buaya.jpg',
-    // ),
-    // Cake(
-    //   id: 'c2',
-    //   name: 'Kue Tart',
-    //   description: 'tessssssssssss',
-    //   price: 300000,
-    //   imageUrl: 'https://i.ibb.co/yqZSxW2/tart.jpg',
-    // ),
-    // Cake(
-    //   id: 'c3',
-    //   name: 'Donat',
-    //   description: 'tessssssssssss',
-    //   price: 55000,
-    //   imageUrl: 'https://i.ibb.co/FskqRwp/donat.jpg',
-    // ),
-    // Cake(
-    //   id: 'c4',
-    //   name: 'Bolu Gulung',
-    //   description: 'tessssssssssss',
-    //   price: 200000,
-    //   imageUrl: 'https://i.ibb.co/kcdBL7F/bolu.jpg',
-    // ),
-  ];
-
-  // mengembalikan salinan dari _items menggunakan operator spread (...)
-  // sehingga memastikan bahwa list yang dikembalikan bersifat immutable atau
-  // tidak dapat diubah dari luar kelas.
-  List<Cake> get items {
-    return [..._items];
-  }
-
   Cake? _selectedCake; // tambahkan properti selectedCake
 
-  Cake? get selectedCake =>
-      _selectedCake; // tambahkan getter untuk selectedCake
+  Cake? get selectedCake => _selectedCake; // tambahkan getter untuk selectedCake
+
+
 
   // Add
   // void addCake(Cake cake) async{

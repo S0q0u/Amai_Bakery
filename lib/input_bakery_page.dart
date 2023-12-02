@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'main.dart';
 import 'cake_collection.dart';
+import 'auth.dart';
 
 class input_bakery_page extends StatefulWidget {
   const input_bakery_page({Key? key});
@@ -25,12 +26,30 @@ class _InputPageState extends State<input_bakery_page> {
 
 
   // Fungsi untuk mengembalikan nilai jumlah yang harus dibayar
+  // int getTotal() {
+  //   int total = 0;
+  //   for (String item in quantities.keys) {
+  //     total += (cakeList.items.firstWhere((cake) => cake.name == item).price *
+  //             quantities[item]!)
+  //         .toInt();
+  //   }
+  //   return total;
+  // }
+  // int getTotal() {
+  //   int total = 0;
+  //   for (String item in quantities.keys) {
+  //     // Mengambil harga dari kue yang dipilih berdasarkan ID
+  //     double itemPrice = cakeList.selectedCake?.price ?? 0.0;
+  //
+  //     total += (itemPrice * quantities[item]!).toInt();
+  //   }
+  //   return total;
+  // }
   int getTotal() {
     int total = 0;
     for (String item in quantities.keys) {
-      total += (cakeList.items.firstWhere((cake) => cake.name == item).price *
-              quantities[item]!)
-          .toInt();
+      double itemPrice = cakeList.selectedCake?.price ?? 0.0;
+      total += (itemPrice * quantities[item]!).toInt();
     }
     return total;
   }
@@ -51,6 +70,7 @@ class _InputPageState extends State<input_bakery_page> {
     String addressValue = address.text;
 
     // Map untuk menyimpan data pesanan
+    // Map untuk menyimpan data pesanan
     Map<String, dynamic> order = {
       'name': nameValue,
       'phoneNumber': phoneNumberValue,
@@ -58,8 +78,7 @@ class _InputPageState extends State<input_bakery_page> {
       'items': List<Map<String, dynamic>>.from(quantities.entries.map((entry) {
         String itemName = entry.key;
         int itemQuantity = entry.value;
-        double itemPrice =
-            cakeList.items.firstWhere((cake) => cake.name == itemName).price;
+        double itemPrice = cakeList.selectedCake?.price ?? 0.0;
 
         return {
           'item': itemName,
@@ -280,12 +299,12 @@ class _InputPageState extends State<input_bakery_page> {
               ),
               for (String item in quantities.keys)
                 Text(
-                  //'$item: ${quantities[item]} x Rp ${menuPrices[item]}',
-                  '$item: ${quantities[item]} x Rp ${cakeList.items.firstWhere((cake) => cake.name == item).price}',
+                  '$item: ${quantities[item]} x Rp ${cakeList.selectedCake?.price ?? 0.0}',
                   style: const TextStyle(
                     color: Colors.white,
                   ),
                 ),
+
               Text(
                 ''
                 'Total: Rp ${getTotal()}',
@@ -345,7 +364,7 @@ class _InputPageState extends State<input_bakery_page> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
+      body: Center(
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -411,87 +430,95 @@ class _InputPageState extends State<input_bakery_page> {
 
                 const SizedBox(height: 20.0),
 
-                // Listview, separated digunakan untuk memisahkan tiap item
-                ListView.separated(
-                  shrinkWrap: true,
-                  //itemCount: menuPrices.keys.length,
-                  itemCount: cakeList.items.length,
-                  itemBuilder: (context, index) {
-                    //String item = menuPrices.keys.toList()[index];
-                    Cake cake = cakeList.items[index];
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          cake.name,
-                          //style: Theme.of(context).textTheme.labelMedium,
-                          style: const TextStyle(
-                              color: Colors.black, fontSize: 15),
-                        ),
-                        Row(
-                          children: <Widget>[
-                            FloatingActionButton(
-                              onPressed: () {
-                                setState(() {
-                                  // if (quantities.containsKey(item) &&
-                                  //     quantities[item]! > 0) {
-                                  //   quantities[item] = quantities[item]! - 1;
-                                  // }
-                                  if (quantities.containsKey(cake.name) &&
-                                      quantities[cake.name]! > 0) {
-                                    quantities[cake.name] =
-                                        quantities[cake.name]! - 1;
-                                  }
-                                });
-                              },
-                              mini: true,
-                              backgroundColor:
-                                  const Color.fromARGB(255, 248, 30, 67),
-                              child: const Icon(
-                                CupertinoIcons.minus,
-                                color: Colors.white,
-                              ),
-                            ),
-                            const SizedBox(width: 10.0),
-                            Text(
-                              //'${quantities[item] ?? 0}',
-                              '${quantities[cake.name] ?? 0}',
-                              style: const TextStyle(
-                                  color: Colors.black, fontSize: 15),
-                            ),
-                            const SizedBox(width: 10.0),
-                            FloatingActionButton(
-                              onPressed: () {
-                                setState(() {
-                                  // if (quantities.containsKey(item)) {
-                                  //   quantities[item] = quantities[item]! + 1;
-                                  // } else {
-                                  //   quantities[item] = 1;
-                                  // }
-                                  if (quantities.containsKey(cake.name)) {
-                                    quantities[cake.name] =
-                                        quantities[cake.name]! + 1;
-                                  } else {
-                                    quantities[cake.name] = 1;
-                                  }
-                                });
-                              },
-                              mini: true,
-                              backgroundColor:
-                                  const Color.fromARGB(255, 248, 30, 67),
-                              child: const Icon(
-                                CupertinoIcons.add,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    );
-                  },
-                  separatorBuilder: (context, index) => const SizedBox(
-                      height: 10.0), // jarak antar item adalah 10
+                Expanded(
+                  child: StreamBuilder<List<Cake>>(
+                    stream: FirebaseServiceCake().getCakesStream(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else if (snapshot.data == null || snapshot.data!.isEmpty) {
+                        return Text('Tidak ada data kue.');
+                      } else {
+                        List<Cake> cakes = snapshot.data!;
+                        print('Number of cakes: ${cakes.length}');
+
+                        for (Cake cake in cakes) {
+                          print('Cake: ${cake.name}, Price: ${cake.price}');
+                        }
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: cakes.length,
+                          itemBuilder: (context, index) {
+                            Cake cake = cakes[index];
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  cake.name,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    FloatingActionButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          if (quantities.containsKey(cake.name) &&
+                                              quantities[cake.name]! > 0) {
+                                            quantities[cake.name] =
+                                                quantities[cake.name]! - 1;
+                                          }
+                                        });
+                                      },
+                                      mini: true,
+                                      backgroundColor:
+                                      const Color.fromARGB(255, 248, 30, 67),
+                                      child: const Icon(
+                                        CupertinoIcons.minus,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10.0),
+                                    Text(
+                                      '${quantities[cake.name] ?? 0}',
+                                      style: const TextStyle(
+                                          color: Colors.black, fontSize: 15),
+                                    ),
+                                    const SizedBox(width: 10.0),
+                                    FloatingActionButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          if (quantities.containsKey(cake.name)) {
+                                            quantities[cake.name] =
+                                                quantities[cake.name]! + 1;
+                                          } else {
+                                            quantities[cake.name] = 1;
+                                          }
+                                        });
+                                      },
+                                      mini: true,
+                                      backgroundColor:
+                                      const Color.fromARGB(255, 248, 30, 67),
+                                      child: const Icon(
+                                        CupertinoIcons.add,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    },
+                  ),
                 ),
+
                 const SizedBox(
                   height: 15,
                 ),

@@ -57,6 +57,30 @@ class FirebaseServiceCake {
         .toList());
   }
 
+  Future<Cake?> getCakeById(String id) async {
+    try {
+      final DocumentSnapshot cakeDoc =
+      await _firestoreCake.collection('cakes').doc(id).get();
+
+      if (cakeDoc.exists) {
+        return Cake(
+          id: cakeDoc.id,
+          name: cakeDoc['name'],
+          description: cakeDoc['description'],
+          price: cakeDoc['price'],
+          imageUrl: cakeDoc['imageUrl'],
+        );
+      } else {
+        print('Cake with ID $id not found.');
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching cake details: $e');
+      return null;
+    }
+  }
+
+
   Future<void> addCake(Map<String, dynamic> cakeData) async {
     await _firestoreCake.collection('cakes').add(cakeData);
   }
