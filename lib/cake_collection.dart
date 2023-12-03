@@ -20,11 +20,11 @@ class Cake with ChangeNotifier {
 
 class CakeList with ChangeNotifier {
   final FirebaseServiceCake _firebaseServiceCake = FirebaseServiceCake();
-  // Properti stream untuk mendengarkan perubahan pada daftar kue
-  StreamController<List<Cake>> _cakesController = StreamController<List<Cake>>.broadcast();
-
-  // Stream untuk digunakan oleh StreamBuilder di ManageCake
-  Stream<List<Cake>> get cakesStream => _cakesController.stream;
+  // // Properti stream untuk mendengarkan perubahan pada daftar kue
+  // StreamController<List<Cake>> _cakesController = StreamController<List<Cake>>.broadcast();
+  //
+  // // Stream untuk digunakan oleh StreamBuilder di edit cake
+  // Stream<List<Cake>> get cakesStream => _cakesController.stream;
 
   Cake? _selectedCake; // Variabel yang menyimpan satu instance dari kue yang dipilih.
   Cake? get selectedCake => _selectedCake; // Getter yang memberikan akses ke instance kue yang dipilih.
@@ -36,10 +36,10 @@ class CakeList with ChangeNotifier {
     notifyListeners();
   }
 
-  void unselectCake(Cake cake) {
-    _selectedCakes.remove(cake);
-    notifyListeners();
-  }
+  // void unselectCake(Cake cake) {
+  //   _selectedCakes.remove(cake);
+  //   notifyListeners();
+  // }
 
 
   // TAMBAH CAKE

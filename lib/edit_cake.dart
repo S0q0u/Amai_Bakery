@@ -83,9 +83,11 @@ class _EditCakeState extends State<EditCake> {
     }
 
     // Load cake details when the widget is built
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadCakeDetails();
     });
+
+
 
 
 
