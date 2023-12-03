@@ -36,10 +36,6 @@ class _InputPageState extends State<input_bakery_page> {
           .collection('History')
           .add(order);
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Pesanan berhasil ditambahkan")),
-      );
-
       // Optionally, you can also update the UI or navigate to the next screen after saving the history.
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -90,7 +86,11 @@ class _InputPageState extends State<input_bakery_page> {
       'name': nameValue,
       'phoneNumber': phoneNumberValue,
       'address': addressValue,
-      'items': List<Map<String, dynamic>>.from(quantities.entries.map((entry) {
+      'items': List<Map<String, dynamic>>.from(quantities.entries
+          .where((entry) =>
+              entry.value >
+              0) // Hanya termasuk item dengan kuantitas lebih besar dari 0
+          .map((entry) {
         String itemName = entry.key;
         int itemQuantity = entry.value;
         double itemPrice = getCakePrice(itemName);
@@ -104,7 +104,7 @@ class _InputPageState extends State<input_bakery_page> {
       'total': getTotal(),
     };
 
-    // Check if any of the text fields is empty
+    // Periksa empty textfield
     if (name.text.isEmpty) {
       showDialog(
         context: context,
@@ -126,7 +126,7 @@ class _InputPageState extends State<input_bakery_page> {
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.of(context).pop(); // Tutup dialog
                 },
                 child: const Text(
                   'OK',
@@ -163,7 +163,7 @@ class _InputPageState extends State<input_bakery_page> {
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.of(context).pop(); // Tutup dialog
                 },
                 child: const Text(
                   'OK',
@@ -198,7 +198,7 @@ class _InputPageState extends State<input_bakery_page> {
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.of(context).pop(); // Tutup dialog
                 },
                 child: const Text(
                   'OK',
@@ -233,7 +233,7 @@ class _InputPageState extends State<input_bakery_page> {
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.of(context).pop(); // Tutup dialog
                 },
                 child: const Text(
                   'OK',
@@ -263,7 +263,6 @@ class _InputPageState extends State<input_bakery_page> {
     order['orderYear'] = year;
     order['orderMonth'] = month;
     order['orderDay'] = day;
-
     order['orderHour'] = hour.toString().padLeft(2, '0');
     order['orderMinute'] = minute.toString().padLeft(2, '0');
 
@@ -314,23 +313,24 @@ class _InputPageState extends State<input_bakery_page> {
                 ),
               ),
               for (String item in quantities.keys)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '$item:',
-                      style: const TextStyle(
-                        color: Colors.white,
+                if (quantities[item]! > 0)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '$item:',
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                    Text(
-                      '  ${quantities[item]} x Rp ${getCakePrice(item)}',
-                      style: const TextStyle(
-                        color: Colors.white,
+                      Text(
+                        '  ${quantities[item]} x Rp ${getCakePrice(item)}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
               Text(
                 'Total: Rp ${getTotal()}',
                 style: const TextStyle(
@@ -504,8 +504,15 @@ class _InputPageState extends State<input_bakery_page> {
                                             setState(() {
                                               if (quantities
                                                   .containsKey(cake.name)) {
-                                                quantities[cake.name] =
-                                                    quantities[cake.name]! - 1;
+                                                if (quantities[cake.name]! >
+                                                    0) {
+                                                  quantities[cake.name] =
+                                                      quantities[cake.name]! -
+                                                          1;
+                                                } else {
+                                                  // Nilai kuantitas tidak boleh menjadi negatif
+                                                  quantities[cake.name] = 0;
+                                                }
                                               } else {
                                                 quantities[cake.name] = 1;
                                               }
@@ -554,9 +561,7 @@ class _InputPageState extends State<input_bakery_page> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(
-                                    height:
-                                        10), // Add a SizedBox between each cake
+                                const SizedBox(height: 10),
                               ],
                             );
                           },

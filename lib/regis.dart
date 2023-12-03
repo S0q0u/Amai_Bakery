@@ -64,9 +64,9 @@ class _RegisPageState extends State<RegisPage> {
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // Close the success dialog
+                  Navigator.of(context).pop(); // Menutup dialog
 
-                  // Navigate to the LoginPage after the dialog is closed
+                  // Navigasi ke login page setelah dialog ditutup
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (context) => const LoginPage(),
@@ -80,7 +80,7 @@ class _RegisPageState extends State<RegisPage> {
         },
       );
     } catch (e) {
-      // Display error dialog
+      // Tampilkan error dialog
       showDialog(
         context: context,
         builder: (context) {

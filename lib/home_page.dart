@@ -12,7 +12,6 @@ class home_page extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: true,
         backgroundColor: theme.primaryColor,
         title: const Text(
           'AMAI BAKERY',
@@ -45,8 +44,6 @@ class home_page extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            // Other widgets here
-
             Expanded(
               child: StreamBuilder<List<Cake>>(
                 stream: FirebaseServiceCake().getCakesStream(),
@@ -57,7 +54,6 @@ class home_page extends StatelessWidget {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else {
                     List<Cake> cakes = snapshot.data ?? [];
-
                     return ListView.builder(
                       itemCount: cakes.length,
                       itemBuilder: (_, int index) {
@@ -92,35 +88,33 @@ class home_page extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      margin: const EdgeInsets.only(left: 10),
-                                      child: Text(
-                                        cakes[index].name,
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      cakes[index].name,
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    const SizedBox(height: 5),
-                                    Container(
-                                      margin: const EdgeInsets.only(left: 10),
-                                      child: Text(
-                                        'Rp ${cakes[index].price.toString()}',
-                                        style: TextStyle(
-                                          color: theme.primaryColor,
-                                          fontSize: 16,
-                                        ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Container(
+                                    margin: const EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      'Rp ${cakes[index].price.toString()}',
+                                      style: TextStyle(
+                                        color: theme.primaryColor,
+                                        fontSize: 16,
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
