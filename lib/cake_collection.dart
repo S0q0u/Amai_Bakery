@@ -55,16 +55,32 @@ class CakeList with ChangeNotifier {
     notifyListeners();
   }
 
-  // UPDATE CAKE
+  // // UPDATE CAKE
+  // Future<void> updateCake(String id, Cake newCake) async {
+  //   final updatedCake = {
+  //     'name': newCake.name,
+  //     'description': newCake.description,
+  //     'price': newCake.price,
+  //     'imageUrl': newCake.imageUrl,
+  //   };
+  //
+  //   await _firebaseServiceCake.updateCake(id, updatedCake);
+  //   notifyListeners();
+  // }
   Future<void> updateCake(String id, Cake newCake) async {
-    final updatedCake = {
+    final updatedCake = await _firebaseServiceCake.updateCake(id, {
       'name': newCake.name,
       'description': newCake.description,
       'price': newCake.price,
       'imageUrl': newCake.imageUrl,
-    };
+    });
 
-    await _firebaseServiceCake.updateCake(id, updatedCake);
+    // Perbarui data di selectedCakes setelah pembaruan di Firestore
+    if (updatedCake != null) {
+      _selectedCakes.removeWhere((cake) => cake.id == id);
+      _selectedCakes.add(updatedCake);
+    }
+
     notifyListeners();
   }
 
