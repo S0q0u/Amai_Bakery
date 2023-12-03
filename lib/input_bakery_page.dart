@@ -433,7 +433,7 @@ class _InputPageState extends State<input_bakery_page> {
                   decoration: const InputDecoration(
                     labelText: 'Nomor Telepon',
                     labelStyle: TextStyle(fontSize: 15),
-                    // filled: true, // Mengaktifkan pengisian latar belakang
+                    filled: true, // Mengaktifkan pengisian latar belakang
                     fillColor: Colors.white, // Warna latar belakang
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
@@ -504,15 +504,8 @@ class _InputPageState extends State<input_bakery_page> {
                                             setState(() {
                                               if (quantities
                                                   .containsKey(cake.name)) {
-                                                if (quantities[cake.name]! >
-                                                    0) {
-                                                  quantities[cake.name] =
-                                                      quantities[cake.name]! -
-                                                          1;
-                                                } else {
-                                                  // Nilai kuantitas tidak boleh menjadi negatif
-                                                  quantities[cake.name] = 0;
-                                                }
+                                                quantities[cake.name] =
+                                                    quantities[cake.name]! - 1;
                                               } else {
                                                 quantities[cake.name] = 1;
                                               }
