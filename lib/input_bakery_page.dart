@@ -502,12 +502,10 @@ class _InputPageState extends State<input_bakery_page> {
                                                 .read<CakeList>()
                                                 .selectCake(cake);
                                             setState(() {
-                                              if (quantities
-                                                  .containsKey(cake.name)) {
-                                                quantities[cake.name] =
-                                                    quantities[cake.name]! - 1;
-                                              } else {
-                                                quantities[cake.name] = 1;
+                                              if (quantities[cake.name] != 0) {
+                                                if (quantities.containsKey(cake.name)) {
+                                                  quantities[cake.name] = quantities[cake.name]! - 1;
+                                                }
                                               }
                                             });
                                           },
