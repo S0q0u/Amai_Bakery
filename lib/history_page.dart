@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types, unused_import
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'main.dart';
 
 class history_page extends StatefulWidget {
-  const history_page({Key? key});
+  const history_page({super.key});
 
   @override
   _history_pageState createState() => _history_pageState();
@@ -19,7 +21,8 @@ class _history_pageState extends State<history_page> {
   void initState() {
     super.initState();
     currentUser = FirebaseAuth.instance.currentUser;
-    userHistoryCollection = FirebaseFirestore.instance.collection('users/${currentUser?.uid}/History');
+    userHistoryCollection = FirebaseFirestore.instance
+        .collection('users/${currentUser?.uid}/History');
   }
 
   @override
@@ -34,9 +37,9 @@ class _history_pageState extends State<history_page> {
           ),
         ),
       ),
-
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: userHistoryCollection.snapshots() as Stream<QuerySnapshot<Map<String, dynamic>>>,
+        stream: userHistoryCollection.snapshots()
+            as Stream<QuerySnapshot<Map<String, dynamic>>>,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
@@ -47,14 +50,16 @@ class _history_pageState extends State<history_page> {
               child: Text('Tidak ada data history.'),
             );
           } else {
-            List<QueryDocumentSnapshot<Map<String, dynamic>>> documents = snapshot.data!.docs;
+            List<QueryDocumentSnapshot<Map<String, dynamic>>> documents =
+                snapshot.data!.docs;
 
             return ListView.builder(
               // Menghitung jumlah item sesuai panjang list
               itemCount: documents.length,
               // Mengembalikan widget HistoryCard setiap item
               itemBuilder: (context, index) {
-                return HistoryCard(order: documents[index].data() as Map<String, dynamic>);
+                return HistoryCard(
+                    order: documents[index].data() as Map<String, dynamic>);
               },
             );
           }

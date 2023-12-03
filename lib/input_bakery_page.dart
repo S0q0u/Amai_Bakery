@@ -504,8 +504,15 @@ class _InputPageState extends State<input_bakery_page> {
                                             setState(() {
                                               if (quantities
                                                   .containsKey(cake.name)) {
-                                                quantities[cake.name] =
-                                                    quantities[cake.name]! - 1;
+                                                if (quantities[cake.name]! >
+                                                    0) {
+                                                  quantities[cake.name] =
+                                                      quantities[cake.name]! -
+                                                          1;
+                                                } else {
+                                                  // Nilai kuantitas tidak boleh menjadi negatif
+                                                  quantities[cake.name] = 0;
+                                                }
                                               } else {
                                                 quantities[cake.name] = 1;
                                               }
