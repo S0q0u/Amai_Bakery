@@ -40,7 +40,6 @@ class _EditCakeState extends State<EditCake> {
 
       // Membuat objek cake baru
       final newCake = Cake(
-        //id: selectedCake.id, // Use the existing ID for updates
         id: DateTime.now().toString(),
         name: name,
         description: description,
@@ -50,7 +49,6 @@ class _EditCakeState extends State<EditCake> {
 
 
       //Tambah atau update data di Firestore
-      final firestoreService = FirebaseServiceCake();
       if (selectedCakeId == null || selectedCakeId.isEmpty) {
         // Jika ID kosong, artinya cake baru
         await cakeProvider.addCake(newCake);
@@ -110,53 +108,47 @@ class _EditCakeState extends State<EditCake> {
             children: [
               TextFormField(
                 controller: _nameController,
-                //style: Theme.of(context).textTheme.labelMedium,
                 decoration: const InputDecoration(
-                  labelText: 'Name',
-                  //labelStyle: Theme.of(context).textTheme.labelMedium,
+                  labelText: 'Nama',
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a name.';
+                    return 'Nama masih kosong';
                   }
                   return null;
                 },
               ),
               TextFormField(
                 controller: _priceController,
-                //style: Theme.of(context).textTheme.labelMedium,
                 decoration: const InputDecoration(
-                  labelText: 'Price',
-                  //labelStyle: Theme.of(context).textTheme.labelMedium,
+                  labelText: 'Harga',
                 ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a price.';
+                    return 'Harga masih kosong';
                   }
                   if (double.tryParse(value) == null) {
-                    return 'Please enter a valid number.';
+                    return 'Harga tidak valid';
                   }
                   if (double.parse(value) <= 0) {
-                    return 'Please enter a number greater than zero.';
+                    return 'Masukkan angka yang lebih besar dari 0';
                   }
                   return null;
                 },
               ),
               TextFormField(
                 controller: _descriptionController,
-                //style: Theme.of(context).textTheme.labelMedium,
                 decoration: const InputDecoration(
-                  labelText: 'Description',
-                  //labelStyle: Theme.of(context).textTheme.labelMedium,
+                  labelText: 'Deskripsi',
                 ),
                 maxLines: 3,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a description.';
+                    return 'Deskripsi masih kosong';
                   }
                   if (value.length < 10) {
-                    return 'Should be at least 10 characters long.';
+                    return 'Panjangnya minimal harus 10 karakter';
                   }
                   return null;
                 },

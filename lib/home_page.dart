@@ -81,23 +81,20 @@ class home_page extends StatelessWidget {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Container(
-                                  width: 150,
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(5),
-                                      bottomLeft: Radius.circular(5),
-                                    ),
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(cakes[index].imageUrl),
-                                    ),
+                              Container(
+                                width: 150,
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(5),
+                                    bottomLeft: Radius.circular(5),
+                                  ),
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(cakes[index].imageUrl),
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 10),
+                              //const SizedBox(width: 10),
                               Expanded(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -116,8 +113,8 @@ class home_page extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 5),
                                     Container(
-                                      alignment: Alignment.bottomRight,
-                                      margin: const EdgeInsets.only(right: 20),
+                                      //alignment: Alignment.bottomRight,
+                                      margin: const EdgeInsets.only(left: 10),
                                       child: Text(
                                         'Rp ${cakes[index].price.toString()}',
                                         style: TextStyle(

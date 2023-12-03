@@ -1,11 +1,7 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:bakery/auth.dart';
-import 'package:bakery/home_page.dart';
 import 'package:bakery/main.dart';
 import 'package:bakery/regis.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -36,17 +32,20 @@ class _LoginPageState extends State<LoginPage> {
 
     // Tambahkan pesan untuk Email atau Password yang salah
     try {
-      await _auth.login(email, password);
-      // Pemeriksaan jika login adalah admin
+      // Cek login Admin
       if (email == adminEmail && password == adminPassword) {
-        // Jika admin, navigasikan ke halaman admin
+        // Navigasi ke Page User
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => const BottomNavigationAdmin()),
+            builder: (context) => const BottomNavigationAdmin(),
+          ),
         );
       } else {
-        // Jika bukan admin, navigasikan ke halaman home
+        // Cek login User
+        await _auth.login(email, password);
+
+        // Navigasi ke Page User
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const BottomNavigation()),
@@ -57,8 +56,8 @@ class _LoginPageState extends State<LoginPage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Error'),
-            content: const Text('Invalid Email or Password. Please try again.'),
+            title: const Text('Login Error'),
+            content: const Text('Email atau Password tidak valid. Silakan coba lagi.'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -74,6 +73,7 @@ class _LoginPageState extends State<LoginPage> {
     }
     setState(() => _loading = false);
   }
+
 
   bool isPasswordVisible = false;
 
@@ -125,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                         controller: _ctrlEmail,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please fill in your Email';
+                            return 'Email masih kosong';
                           }
                           return null;
                         },
@@ -152,7 +152,7 @@ class _LoginPageState extends State<LoginPage> {
                         obscureText: !isPasswordVisible,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please fill your password';
+                            return 'Password masih kosong';
                           }
                           return null;
                         },

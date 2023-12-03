@@ -1,4 +1,3 @@
-import 'package:bakery/login.dart';
 import 'package:bakery/manage_cake.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'input_bakery_page.dart';
 import 'home_page.dart';
 import 'about_page.dart';
 import 'edit_cake.dart';
-import 'theme_mode_data.dart';
 import 'IntroductionPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -29,8 +27,6 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (BuildContext context) => CakeList()),
         ChangeNotifierProvider(create: (BuildContext context) => OrderData()),
-        ChangeNotifierProvider(
-            create: (BuildContext context) => ThemeModeData()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -49,6 +45,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// ==========CLASS ADMIN=================
 class BottomNavigationAdmin extends StatefulWidget {
   const BottomNavigationAdmin({super.key});
 
@@ -95,11 +92,11 @@ class _BottomNavigationAdminState extends State<BottomNavigationAdmin> {
         unselectedIconTheme: Theme.of(context).iconTheme,
         type: BottomNavigationBarType.fixed,
       ),
-      // Menampilkan floating button menuju about page hanya di home page
     );
   }
 }
 
+// ==========CLASS USER=================
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
 

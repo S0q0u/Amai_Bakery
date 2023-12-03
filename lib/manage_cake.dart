@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'cake_collection.dart';
 import 'edit_cake.dart';
 import 'auth.dart';
@@ -52,7 +51,6 @@ class ManageCake extends StatelessWidget {
           } else {
             // Menampilkan data kue dalam ListView.builder
             return ListView.builder(
-              //itemCount: snapshot.data?.length ?? 0,
               itemCount: snapshot.data!.length,
               itemBuilder: (_, int index) {
                 final cake = snapshot.data![index];
@@ -91,12 +89,15 @@ class ManageCake extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              cake.name,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
+                            Expanded(
+                              child: Text(
+                                cake.name,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             Row(
@@ -171,6 +172,7 @@ class ManageCake extends StatelessWidget {
                       ),
                     ],
                   ),
+
                 );
               },
             );

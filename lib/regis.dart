@@ -12,7 +12,6 @@ class RegisPage extends StatefulWidget {
 }
 
 class _RegisPageState extends State<RegisPage> {
-  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _gmailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
   final TextEditingController _confirmPassController = TextEditingController();
@@ -24,7 +23,6 @@ class _RegisPageState extends State<RegisPage> {
   void handleSubmit() async {
     if (!_formKey.currentState!.validate()) return;
 
-    final nama = _nameController.text;
     final email = _gmailController.text;
     final password = _passController.text;
     final confPass = _confirmPassController.text;
@@ -36,8 +34,8 @@ class _RegisPageState extends State<RegisPage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Error'),
-            content: const Text('Password and Confirm Password do not match.'),
+            title: const Text('Registrasi Gagal'),
+            content: const Text('Password dan Confirm Password tidak cocok.'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -53,15 +51,52 @@ class _RegisPageState extends State<RegisPage> {
       return;
     }
     try {
-      await _auth.regis(nama, email, password, confPass);
-      // Jika pendaftaran berhasil, navigasikan ke halaman login
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginPage()),
+      await _auth.regis(email, password, confPass);
+
+      // Show success dialog
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Registrasi Berhasil'),
+            content: const Text('Akun Anda telah berhasil terdaftar. Anda sekarang dapat masuk menggunakan kredensial Anda.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the success dialog
+
+                  // Navigate to the LoginPage after the dialog is closed
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ),
+                  );
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
       );
     } catch (e) {
-      // Tampilkan pesan kesalahan jika pendaftaran gagal
-      print('Registrasi gagal: $e');
+      // Display error dialog
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Registrasi Error'),
+            content: Text(e.toString()),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
     }
 
     setState(() => _loading = false);
@@ -78,197 +113,191 @@ class _RegisPageState extends State<RegisPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 248, 226, 230),
-        body: Form(
-          key: _formKey,
-          child: Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 50),
-                child: Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40),
-                    ),
-                    color: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 248, 226, 230),
+      body: Form(
+        key: _formKey,
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 50),
+              child: Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
                   ),
-                  height: double.infinity,
-                  width: double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 18.0, right: 18),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'REGISTRASI',
-                          style: TextStyle(
-                            fontSize: 20,
+                  color: Colors.white,
+                ),
+                height: double.infinity,
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 18.0, right: 18),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'REGISTRASI',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 223, 128, 144),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _gmailController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Email masih kosong';
+                          }
+                          return null;
+                        },
+                        decoration: const InputDecoration(
+                          suffixIcon: Icon(
+                            Icons.email,
+                            color: Colors.grey,
+                          ),
+                          labelText: 'Email',
+                          labelStyle: TextStyle(
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 223, 128, 144),
                           ),
                         ),
-                        const SizedBox(height: 16),
-                        TextFormField(
-                          controller: _nameController,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Silakan Masukkan Nama Anda';
-                            }
-                            return null;
-                          },
-                          decoration: const InputDecoration(
-                            suffixIcon: Icon(
-                              Icons.person,
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _passController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Password masih kosong';
+                          }
+                          // if (value.length <= 8) {
+                          //   return 'Password terlalu pendek, minimal 8 karakter';
+                          // }
+                          return null;
+                        },
+                        style: const TextStyle(
+                          fontSize: 14,
+                        ),
+                        obscureText: !isPasswordVisible,
+                        decoration: InputDecoration(
+                          suffixIcon: GestureDetector(
+                            onTap: _togglePasswordVisibility,
+                            child: Icon(
+                              isPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
                               color: Colors.grey,
                             ),
-                            labelText: 'Nama',
-                            labelStyle: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 223, 128, 144),
-                            ),
+                          ),
+                          labelText: 'Password',
+                          labelStyle: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 223, 128, 144),
                           ),
                         ),
-                        const SizedBox(height: 16),
-                        TextFormField(
-                          controller: _gmailController,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Silakan Masukkan Gmail Anda';
-                            }
-                            return null;
-                          },
-                          decoration: const InputDecoration(
-                            suffixIcon: Icon(
-                              Icons.email,
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _confirmPassController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Confirm Password masih kosong';
+                          }
+                          return null;
+                        },
+                        style: const TextStyle(
+                          fontSize: 14,
+                        ),
+                        obscureText: !isPasswordVisible,
+                        decoration: InputDecoration(
+                          suffixIcon: GestureDetector(
+                            onTap: _togglePasswordVisibility,
+                            child: Icon(
+                              isPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
                               color: Colors.grey,
                             ),
-                            labelText: 'Gmail',
-                            labelStyle: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 223, 128, 144),
-                            ),
+                          ),
+                          labelText: 'Confirm Password',
+                          labelStyle: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 223, 128, 144),
                           ),
                         ),
-                        const SizedBox(height: 16),
-                        TextFormField(
-                          controller: _passController,
-                          style: const TextStyle(
-                            fontSize: 14,
-                          ),
-                          obscureText: !isPasswordVisible,
-                          decoration: InputDecoration(
-                            suffixIcon: GestureDetector(
-                              onTap: _togglePasswordVisibility,
-                              child: Icon(
-                                isPasswordVisible
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            labelText: 'Password',
-                            labelStyle: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 223, 128, 144),
-                            ),
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () => handleSubmit(),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                          const Color.fromARGB(255, 248, 30, 67),
+                          minimumSize: const Size(250, 50),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
                           ),
                         ),
-                        const SizedBox(height: 16),
-                        TextFormField(
-                          controller: _confirmPassController,
-                          style: const TextStyle(
-                            fontSize: 14,
-                          ),
-                          obscureText: !isPasswordVisible,
-                          decoration: InputDecoration(
-                            suffixIcon: GestureDetector(
-                              onTap: _togglePasswordVisibility,
-                              child: Icon(
-                                isPasswordVisible
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            labelText: 'Confirm Password',
-                            labelStyle: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 223, 128, 144),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        ElevatedButton(
-                          onPressed: () => handleSubmit(),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                            const Color.fromARGB(255, 248, 30, 67),
-                            minimumSize: const Size(250, 50),
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                          ),
-                          child: _loading
-                              ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 2,
-                            ),
-                          )
-                              : const Text(
-                            'Simpan',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        Align(
-                          alignment: Alignment.center,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const LoginPage()));
-                            },
-                            child: const Column(
-                              children: [
-                                Text(
-                                  "Already have an account?",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                Text(
-                                  "Sign in",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                    color: Colors.blue,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                              ],
-                            ),
+                        child: _loading
+                            ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
                           ),
                         )
-                      ],
-                    ),
+                            : const Text(
+                          'Simpan',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Align(
+                        alignment: Alignment.center,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const LoginPage()));
+                          },
+                          child: const Column(
+                            children: [
+                              Text(
+                                "Already have an account?",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              Text(
+                                "Sign in",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.blue,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
-        ));
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

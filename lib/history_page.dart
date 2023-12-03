@@ -34,7 +34,7 @@ class _history_pageState extends State<history_page> {
           ),
         ),
       ),
-      // backgroundColor: const Color.fromARGB(255, 240, 202, 209),
+
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: userHistoryCollection.snapshots() as Stream<QuerySnapshot<Map<String, dynamic>>>,
         builder: (context, snapshot) {
@@ -85,8 +85,7 @@ class _HistoryCardState extends State<HistoryCard> {
       curve: Curves.easeInOut,
       margin: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
-        // Mengatur border radius 16 saat ekspansi dan 8 saat dikembalikan ke kondisi awal
-        borderRadius: BorderRadius.circular(isExpanded ? 16.0 : 8.0),
+        borderRadius: BorderRadius.circular(isExpanded ? 8.0 : 8.0),
         color: Colors.white,
         boxShadow: [
           BoxShadow(

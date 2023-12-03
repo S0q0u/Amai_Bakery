@@ -2,12 +2,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'cake_collection.dart';
 
+// ==========CLASS AUTH USER===========
 class authUser {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  Future<void> regis(String nama, String email, String password, String confirmPass) async {
+
+  Future<void> regis(String email, String password, String confirmPass) async {
     try {
       if (password != confirmPass) {
-        throw 'Password and confirm password do not match';
+        throw 'Password dan confirm password tidak sesuai';
+      }
+
+      // Pemeriksaan jika ada yg regis dengan email admin
+      if (email.toLowerCase() == 'admin@gmail.com') {
+        throw 'Email sudah digunakan';
       }
 
       final regisUser = await _auth.createUserWithEmailAndPassword(
@@ -19,38 +26,43 @@ class authUser {
       final uidPengguna = user?.uid;
 
       if (user != null) {
-        // Update display name
-        await user.updateDisplayName(nama);
-        print('User registered successfully with name: $nama');
+        await user.updateDisplayName(user.email!);
+        print('User registered successfully with email: $email');
 
-        // Store additional user data in Firestore
+        // MENYIMPAN AKUN KE FIREBASE
         await FirebaseFirestore.instance
             .collection('users')
-            .doc(uidPengguna);
-        //     .collection('nama_user')
-        //     .add({
-        // 'nama': nama,
-        // });
+            .doc(uidPengguna).set({
+          'email': email,
+        });
       } else {
         throw 'User registration failed';
       }
     } catch (e) {
-      print('Registration error: $e');
-      // Handle error accordingly, show snackbar, dialog, or navigate to an error page
+      print('Registrasi Error: $e');
+      if (e is FirebaseAuthException && e.code == 'email-already-in-use') {
+        throw 'Email sudah digunakan.';
+      } else {
+        throw 'Registrasi Error: $e';
+      }
     }
   }
 
+  // UNTUK LOGIN
   Future<void> login(String email, String password) async {
-    final user = await _auth.signInWithEmailAndPassword(
+    await _auth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
   }
 }
 
+
+//==========CLASS AUTH CAKE=============
 class FirebaseServiceCake {
   final FirebaseFirestore _firestoreCake = FirebaseFirestore.instance;
 
+  // UNTUK MENAMPILKAN CAKE
   Stream<List<Cake>> getCakesStream() {
     return _firestoreCake
         .collection('cakes')
@@ -66,6 +78,7 @@ class FirebaseServiceCake {
         .toList());
   }
 
+  // UNTUK MENANGKAP CAKE DARI ID (DI BAGIAN UPDATE)
   Future<Cake?> getCakeById(String id) async {
     try {
       final DocumentSnapshot cakeDoc =
@@ -89,17 +102,17 @@ class FirebaseServiceCake {
     }
   }
 
-
-
-
+  // UNTUK TAMBAH CAKE BARU
   Future<void> addCake(Map<String, dynamic> cakeData) async {
     await _firestoreCake.collection('cakes').add(cakeData);
   }
 
+  // UNTUK UPDATE CAKE
   Future<void> updateCake(String id, Map<String, dynamic> updatedCakeData) async {
     await _firestoreCake.collection('cakes').doc(id).update(updatedCakeData);
   }
 
+  // UNTUK HAPUS CAKE
   Future<void> deleteCake(String id) async {
     await _firestoreCake.collection('cakes').doc(id).delete();
   }

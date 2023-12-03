@@ -266,8 +266,10 @@ class _InputPageState extends State<input_bakery_page> {
     order['orderYear'] = year;
     order['orderMonth'] = month;
     order['orderDay'] = day;
-    order['orderHour'] = hour;
-    order['orderMinute'] = minute;
+    // order['orderHour'] = hour;
+    // order['orderMinute'] = minute;
+    order['orderHour'] = hour.toString().padLeft(2, '0');
+    order['orderMinute'] = minute.toString().padLeft(2, '0');
 
     // Menyimpan data pesanan
     OrderData orderData = Provider.of<OrderData>(context, listen: false);
@@ -350,15 +352,15 @@ class _InputPageState extends State<input_bakery_page> {
                 ),
               ),
               Text(
-                'Waktu Pemesanan: $hour:$minute',
+                //'Waktu Pemesanan: $hour:$minute',
+                'Waktu Pemesanan: ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}',
                 style: const TextStyle(
                   color: Colors.white,
                 ),
               ),
             ],
           ),
-          // Menerapkan background color sesuai tema
-          //backgroundColor: Theme.of(context).dialogBackgroundColor,
+
           // Menutup nota dan membersihkan inputan
           actions: [
             TextButton(
@@ -381,6 +383,7 @@ class _InputPageState extends State<input_bakery_page> {
     return true;
   }
 
+  // Untuk mendapatkan harga dari cake berdasarkan nama itemnya
   double getCakePrice(String itemName) {
     Cake? selectedCake = cakeList.selectedCakes.firstWhere(
           (cake) => cake.name == itemName,
