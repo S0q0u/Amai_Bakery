@@ -59,7 +59,8 @@ class _RegisPageState extends State<RegisPage> {
         builder: (context) {
           return AlertDialog(
             title: const Text('Registrasi Berhasil'),
-            content: const Text('Akun Anda telah berhasil terdaftar. Anda sekarang dapat masuk menggunakan kredensial Anda.'),
+            content: const Text(
+                'Akun Anda telah berhasil terdaftar. Anda sekarang dapat masuk menggunakan kredensial Anda.'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -163,6 +164,13 @@ class _RegisPageState extends State<RegisPage> {
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 223, 128, 144),
                           ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors
+                                  .pink, // Warna outline saat dalam keadaan fokus
+                              width: 2.0, // Lebar garis
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -172,9 +180,6 @@ class _RegisPageState extends State<RegisPage> {
                           if (value == null || value.isEmpty) {
                             return 'Password masih kosong';
                           }
-                          // if (value.length <= 8) {
-                          //   return 'Password terlalu pendek, minimal 8 karakter';
-                          // }
                           return null;
                         },
                         style: const TextStyle(
@@ -196,6 +201,13 @@ class _RegisPageState extends State<RegisPage> {
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 223, 128, 144),
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors
+                                  .pink, // Warna outline saat dalam keadaan fokus
+                              width: 2.0, // Lebar garis
+                            ),
                           ),
                         ),
                       ),
@@ -228,6 +240,13 @@ class _RegisPageState extends State<RegisPage> {
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 223, 128, 144),
                           ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors
+                                  .pink, // Warna outline saat dalam keadaan fokus
+                              width: 2.0, // Lebar garis
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -235,7 +254,7 @@ class _RegisPageState extends State<RegisPage> {
                         onPressed: () => handleSubmit(),
                         style: ElevatedButton.styleFrom(
                           backgroundColor:
-                          const Color.fromARGB(255, 248, 30, 67),
+                              const Color.fromARGB(255, 248, 30, 67),
                           minimumSize: const Size(250, 50),
                           padding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 16),
@@ -245,24 +264,24 @@ class _RegisPageState extends State<RegisPage> {
                         ),
                         child: _loading
                             ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 2,
-                          ),
-                        )
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                ),
+                              )
                             : const Text(
-                          'Simpan',
-                          style: TextStyle(color: Colors.white),
-                        ),
+                                'Simpan',
+                                style: TextStyle(color: Colors.white),
+                              ),
                       ),
                       const SizedBox(height: 20),
                       Align(
                         alignment: Alignment.center,
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => const LoginPage()));

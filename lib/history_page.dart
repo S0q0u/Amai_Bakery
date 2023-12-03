@@ -39,11 +39,11 @@ class _history_pageState extends State<history_page> {
         stream: userHistoryCollection.snapshots() as Stream<QuerySnapshot<Map<String, dynamic>>>,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
-            return Center(
+            return const Center(
               child: Text('Tidak ada data history.'),
             );
           } else {

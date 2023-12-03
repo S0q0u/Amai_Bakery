@@ -38,7 +38,6 @@ class ManageCake extends StatelessWidget {
             ),
           ),
         ],
-        //centerTitle: true,
       ),
       body: StreamBuilder<List<Cake>>(
         // Menggunakan stream untuk mendengarkan perubahan data dari Firestore

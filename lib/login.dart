@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:bakery/auth.dart';
 import 'package:bakery/main.dart';
 import 'package:bakery/regis.dart';
@@ -30,11 +32,10 @@ class _LoginPageState extends State<LoginPage> {
 
     setState(() => _loading = true);
 
-    // Tambahkan pesan untuk Email atau Password yang salah
     try {
       // Cek login Admin
       if (email == adminEmail && password == adminPassword) {
-        // Navigasi ke Page User
+        // Navigasi ke Page Admin
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -57,7 +58,8 @@ class _LoginPageState extends State<LoginPage> {
         builder: (context) {
           return AlertDialog(
             title: const Text('Login Error'),
-            content: const Text('Email atau Password tidak valid. Silakan coba lagi.'),
+            content: const Text(
+                'Email atau Password tidak valid. Silakan coba lagi.'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -73,7 +75,6 @@ class _LoginPageState extends State<LoginPage> {
     }
     setState(() => _loading = false);
   }
-
 
   bool isPasswordVisible = false;
 
@@ -217,7 +218,7 @@ class _LoginPageState extends State<LoginPage> {
                         alignment: Alignment.center,
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const RegisPage()),

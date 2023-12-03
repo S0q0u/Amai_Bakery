@@ -9,7 +9,6 @@ import 'cake_collection.dart';
 import 'auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 class input_bakery_page extends StatefulWidget {
   const input_bakery_page({Key? key});
 
@@ -49,8 +48,6 @@ class _InputPageState extends State<input_bakery_page> {
     }
   }
 
-
-
   // Map untuk menyimpan jumlah item yang ingin dibeli
   Map<String, int> quantities = {};
 
@@ -58,13 +55,14 @@ class _InputPageState extends State<input_bakery_page> {
     int total = 0;
     for (String item in quantities.keys) {
       double itemPrice = cakeList.selectedCakes
-          .firstWhere((cake) => cake.name == item, orElse: () => Cake(
-        id: '',
-        name: '',
-        description: '',
-        price: 0.0,
-        imageUrl: '',
-      ))
+          .firstWhere((cake) => cake.name == item,
+              orElse: () => Cake(
+                    id: '',
+                    name: '',
+                    description: '',
+                    price: 0.0,
+                    imageUrl: '',
+                  ))
           .price;
 
       total += (itemPrice * quantities[item]!).toInt();
@@ -251,7 +249,6 @@ class _InputPageState extends State<input_bakery_page> {
       return false;
     }
 
-
     // Mengambil waktu saat tombol "Pesan Sekarang" diklik
     DateTime orderDate = DateTime.now();
     order['orderDate'] = orderDate;
@@ -266,8 +263,7 @@ class _InputPageState extends State<input_bakery_page> {
     order['orderYear'] = year;
     order['orderMonth'] = month;
     order['orderDay'] = day;
-    // order['orderHour'] = hour;
-    // order['orderMinute'] = minute;
+
     order['orderHour'] = hour.toString().padLeft(2, '0');
     order['orderMinute'] = minute.toString().padLeft(2, '0');
 
@@ -277,7 +273,6 @@ class _InputPageState extends State<input_bakery_page> {
 
     // Menyimpan history ke Firestore
     simpanHistory(order);
-
 
     showDialog(
       context: context,
@@ -289,7 +284,6 @@ class _InputPageState extends State<input_bakery_page> {
             style: TextStyle(
               color: Colors.white,
             ),
-            //style: Theme.of(context).textTheme.bodyMedium,
           ),
           content: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -335,10 +329,8 @@ class _InputPageState extends State<input_bakery_page> {
                         color: Colors.white,
                       ),
                     ),
-
                   ],
                 ),
-
               Text(
                 'Total: Rp ${getTotal()}',
                 style: const TextStyle(
@@ -352,7 +344,6 @@ class _InputPageState extends State<input_bakery_page> {
                 ),
               ),
               Text(
-                //'Waktu Pemesanan: $hour:$minute',
                 'Waktu Pemesanan: ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}',
                 style: const TextStyle(
                   color: Colors.white,
@@ -373,7 +364,6 @@ class _InputPageState extends State<input_bakery_page> {
                 style: TextStyle(
                   color: Colors.white,
                 ),
-                //style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
           ],
@@ -386,7 +376,7 @@ class _InputPageState extends State<input_bakery_page> {
   // Untuk mendapatkan harga dari cake berdasarkan nama itemnya
   double getCakePrice(String itemName) {
     Cake? selectedCake = cakeList.selectedCakes.firstWhere(
-          (cake) => cake.name == itemName,
+      (cake) => cake.name == itemName,
       orElse: () => Cake(
         id: '',
         name: '',
@@ -398,7 +388,6 @@ class _InputPageState extends State<input_bakery_page> {
 
     return selectedCake.price;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -437,9 +426,7 @@ class _InputPageState extends State<input_bakery_page> {
                   ),
                   maxLength: 50,
                 ),
-
                 const SizedBox(height: 10.0),
-
                 TextField(
                   controller: phoneNumber,
                   keyboardType: TextInputType.number,
@@ -457,9 +444,7 @@ class _InputPageState extends State<input_bakery_page> {
                   ),
                   maxLength: 13,
                 ),
-
                 const SizedBox(height: 10.0),
-
                 TextField(
                   controller: address,
                   maxLines: 3,
@@ -477,9 +462,7 @@ class _InputPageState extends State<input_bakery_page> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20.0),
-
                 Expanded(
                   child: StreamBuilder<List<Cake>>(
                     stream: FirebaseServiceCake().getCakesStream(),
@@ -488,7 +471,8 @@ class _InputPageState extends State<input_bakery_page> {
                         return CircularProgressIndicator();
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
-                      } else if (snapshot.data == null || snapshot.data!.isEmpty) {
+                      } else if (snapshot.data == null ||
+                          snapshot.data!.isEmpty) {
                         return Text('Tidak ada data kue.');
                       } else {
                         List<Cake> cakes = snapshot.data!;
@@ -500,7 +484,8 @@ class _InputPageState extends State<input_bakery_page> {
                             return Column(
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
                                       cake.name,
@@ -513,18 +498,22 @@ class _InputPageState extends State<input_bakery_page> {
                                       children: <Widget>[
                                         FloatingActionButton(
                                           onPressed: () {
-                                            context.read<CakeList>().selectCake(cake);
+                                            context
+                                                .read<CakeList>()
+                                                .selectCake(cake);
                                             setState(() {
-                                              if (quantities.containsKey(cake.name)) {
-                                                quantities[cake.name] = quantities[cake.name]! - 1;
+                                              if (quantities
+                                                  .containsKey(cake.name)) {
+                                                quantities[cake.name] =
+                                                    quantities[cake.name]! - 1;
                                               } else {
                                                 quantities[cake.name] = 1;
                                               }
                                             });
                                           },
                                           mini: true,
-                                          backgroundColor:
-                                          const Color.fromARGB(255, 248, 30, 67),
+                                          backgroundColor: const Color.fromARGB(
+                                              255, 248, 30, 67),
                                           child: const Icon(
                                             CupertinoIcons.minus,
                                             color: Colors.white,
@@ -534,23 +523,28 @@ class _InputPageState extends State<input_bakery_page> {
                                         Text(
                                           '${quantities[cake.name] ?? 0}',
                                           style: const TextStyle(
-                                              color: Colors.black, fontSize: 15),
+                                              color: Colors.black,
+                                              fontSize: 15),
                                         ),
                                         const SizedBox(width: 10.0),
                                         FloatingActionButton(
                                           onPressed: () {
-                                            context.read<CakeList>().selectCake(cake);
+                                            context
+                                                .read<CakeList>()
+                                                .selectCake(cake);
                                             setState(() {
-                                              if (quantities.containsKey(cake.name)) {
-                                                quantities[cake.name] = quantities[cake.name]! + 1;
+                                              if (quantities
+                                                  .containsKey(cake.name)) {
+                                                quantities[cake.name] =
+                                                    quantities[cake.name]! + 1;
                                               } else {
                                                 quantities[cake.name] = 1;
                                               }
                                             });
                                           },
                                           mini: true,
-                                          backgroundColor:
-                                          const Color.fromARGB(255, 248, 30, 67),
+                                          backgroundColor: const Color.fromARGB(
+                                              255, 248, 30, 67),
                                           child: const Icon(
                                             CupertinoIcons.add,
                                             color: Colors.white,
@@ -560,7 +554,9 @@ class _InputPageState extends State<input_bakery_page> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 10), // Add a SizedBox between each cake
+                                const SizedBox(
+                                    height:
+                                        10), // Add a SizedBox between each cake
                               ],
                             );
                           },
@@ -569,7 +565,6 @@ class _InputPageState extends State<input_bakery_page> {
                     },
                   ),
                 ),
-
                 const SizedBox(
                   height: 15,
                 ),

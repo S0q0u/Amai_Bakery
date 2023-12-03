@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'cake_collection.dart';
 import 'login.dart';
 import 'auth.dart';
@@ -10,7 +9,6 @@ class home_page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
-    final cakeData = Provider.of<CakeList>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -31,7 +29,7 @@ class home_page extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                    builder: (context) => LoginPage(),
+                    builder: (context) => const LoginPage(),
                   ),
                 );
               },
@@ -54,7 +52,7 @@ class home_page extends StatelessWidget {
                 stream: FirebaseServiceCake().getCakesStream(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else {
@@ -94,7 +92,6 @@ class home_page extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              //const SizedBox(width: 10),
                               Expanded(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -113,7 +110,6 @@ class home_page extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 5),
                                     Container(
-                                      //alignment: Alignment.bottomRight,
                                       margin: const EdgeInsets.only(left: 10),
                                       child: Text(
                                         'Rp ${cakes[index].price.toString()}',
@@ -141,4 +137,3 @@ class home_page extends StatelessWidget {
     );
   }
 }
-
