@@ -67,7 +67,7 @@ class _EditCakeState extends State<EditCake> {
       Navigator.of(context).pop();
     }
 
-    // Fetch the selected cake details from Firestore and set them to controllers
+    // Dapatkan selected cake details dari Firestore dan set ke dalam controllers
     Future<void> _loadCakeDetails() async {
       if (selectedCakeId != null) {
         final firestoreService = FirebaseServiceCake();
@@ -82,7 +82,7 @@ class _EditCakeState extends State<EditCake> {
       }
     }
 
-    // Load cake details when the widget is built
+    // Load cake details 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadCakeDetails();
     });
@@ -157,10 +157,8 @@ class _EditCakeState extends State<EditCake> {
               ),
               TextFormField(
                 controller: _imageUrlController,
-                //style: Theme.of(context).textTheme.labelMedium,
                 decoration: const InputDecoration(
                   labelText: 'Image URL',
-                  //labelStyle: Theme.of(context).textTheme.labelMedium,
                 ),
                 keyboardType: TextInputType.url,
                 validator: (value) {

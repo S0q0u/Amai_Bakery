@@ -34,7 +34,8 @@ class authUser {
         // MENYIMPAN AKUN KE FIREBASE
         await FirebaseFirestore.instance
             .collection('users')
-            .doc(uidPengguna).set({
+            .doc(uidPengguna)
+            .set({
           'email': email,
         });
       } else {
@@ -59,32 +60,32 @@ class authUser {
   }
 }
 
-
 //==========CLASS AUTH CAKE=============
 class FirebaseServiceCake {
   final FirebaseFirestore _firestoreCake = FirebaseFirestore.instance;
 
   // UNTUK MENAMPILKAN CAKE
   Stream<List<Cake>> getCakesStream() {
-    return _firestoreCake
-        .collection('cakes')
-        .snapshots()
-        .map((snapshot) => snapshot.docs
-        .map((doc) => Cake(
-      id: doc.id,
-      name: doc['name'],
-      description: doc['description'],
-      price: doc['price'],
-      imageUrl: doc['imageUrl'],
-    ))
-        .toList());
+    return _firestoreCake.collection('cakes').snapshots().map(
+          (snapshot) => snapshot.docs
+              .map(
+                (doc) => Cake(
+                  id: doc.id,
+                  name: doc['name'],
+                  description: doc['description'],
+                  price: doc['price'],
+                  imageUrl: doc['imageUrl'],
+                ),
+              )
+              .toList(),
+        );
   }
 
   // UNTUK MENANGKAP CAKE DARI ID (DI BAGIAN UPDATE)
   Future<Cake?> getCakeById(String id) async {
     try {
       final DocumentSnapshot cakeDoc =
-      await _firestoreCake.collection('cakes').doc(id).get();
+          await _firestoreCake.collection('cakes').doc(id).get();
 
       if (cakeDoc.exists) {
         return Cake(
@@ -110,14 +111,13 @@ class FirebaseServiceCake {
   }
 
   // // UNTUK UPDATE CAKE
-  // Future<void> updateCake(String id, Map<String, dynamic> updatedCakeData) async {
-  //   await _firestoreCake.collection('cakes').doc(id).update(updatedCakeData);
-  // }
-  Future<Cake?> updateCake(String id, Map<String, dynamic> updatedCakeData) async {
+  Future<Cake?> updateCake(
+      String id, Map<String, dynamic> updatedCakeData) async {
     await _firestoreCake.collection('cakes').doc(id).update(updatedCakeData);
 
     // Setelah pembaruan, ambil ulang data kue dari Firestore dan kembalikan
-    final updatedCakeDoc = await _firestoreCake.collection('cakes').doc(id).get();
+    final updatedCakeDoc =
+        await _firestoreCake.collection('cakes').doc(id).get();
 
     if (updatedCakeDoc.exists) {
       return Cake(
@@ -132,7 +132,6 @@ class FirebaseServiceCake {
       return null;
     }
   }
-
 
   // UNTUK HAPUS CAKE
   Future<void> deleteCake(String id) async {
