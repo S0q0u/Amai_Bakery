@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'cake_collection.dart';
 import 'login.dart';
 import 'auth.dart';
@@ -10,7 +9,6 @@ class home_page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
-    final cakeData = Provider.of<CakeList>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -60,8 +58,8 @@ class home_page extends StatelessWidget {
                 itemBuilder: (_, int index) {
                   return Container(
                     height: 100,
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 5),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),

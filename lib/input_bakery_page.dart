@@ -381,7 +381,6 @@ class _InputPageState extends State<input_bakery_page> {
         imageUrl: '',
       ),
     );
-
     return selectedCake.price;
   }
 
