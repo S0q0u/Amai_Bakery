@@ -51,11 +51,10 @@ class home_page extends StatelessWidget {
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else {
-              List<Cake> cakes = snapshot.data ?? [];
-
               return ListView.builder(
-                itemCount: cakes.length,
+                itemCount: snapshot.data!.length,
                 itemBuilder: (_, int index) {
+                  final cake = snapshot.data![index];
                   return Container(
                     height: 100,
                     margin:
@@ -83,7 +82,8 @@ class home_page extends StatelessWidget {
                             ),
                             image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: NetworkImage(cakes[index].imageUrl),
+                              //image: NetworkImage(cakes[index].imageUrl),
+                              image: NetworkImage(cake.imageUrl),
                             ),
                           ),
                         ),
@@ -96,7 +96,8 @@ class home_page extends StatelessWidget {
                               Container(
                                 margin: const EdgeInsets.only(left: 10),
                                 child: Text(
-                                  cakes[index].name,
+                                  cake.name,
+                                  //cakes[index].name,
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 20,
@@ -110,7 +111,8 @@ class home_page extends StatelessWidget {
                                 //alignment: Alignment.bottomRight,
                                 margin: const EdgeInsets.only(left: 10),
                                 child: Text(
-                                  'Rp ${cakes[index].price.toString()}',
+                                  //'Rp ${cakes[index].price.toString()}',
+                                  cake.price.toString(),
                                   style: TextStyle(
                                     color: theme.primaryColor,
                                     fontSize: 16,

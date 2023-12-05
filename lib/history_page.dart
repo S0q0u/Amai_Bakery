@@ -38,7 +38,7 @@ class _history_pageState extends State<history_page> {
         ),
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: userHistoryCollection.snapshots()
+        stream: userHistoryCollection.orderBy('orderDate', descending : true).snapshots()
             as Stream<QuerySnapshot<Map<String, dynamic>>>,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -111,7 +111,8 @@ class _HistoryCardState extends State<HistoryCard> {
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             subtitle: Text(
-              'Total: Rp ${order['total']}',
+              //'Total: Rp ${order['total']}',
+              '${order['orderDay']}/${order['orderMonth']}/${order['orderYear']} ${order['orderHour']}.${order['orderMinute']}',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodySmall,
             ),
@@ -130,6 +131,18 @@ class _HistoryCardState extends State<HistoryCard> {
           if (isExpanded)
             Column(
               children: [
+                ListTile(
+                  title: Text(
+                    'Alamat: ${order['address']}',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Nomor Telepon: ${order['phoneNumber']}',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ),
                 for (var item in order['items'])
                   ListTile(
                     title: Text(
@@ -143,19 +156,8 @@ class _HistoryCardState extends State<HistoryCard> {
                   ),
                 ListTile(
                   title: Text(
-                    'Alamat: ${order['address']}',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ),
-                ListTile(
-                  title: Text(
-                    'Nomor Telepon: ${order['phoneNumber']}',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ),
-                ListTile(
-                  title: Text(
-                    'Tanggal Pemesanan: ${order['orderDay']}/${order['orderMonth']}/${order['orderYear']} ${order['orderHour']}.${order['orderMinute']}',
+                    //'Tanggal Pemesanan: ${order['orderDay']}/${order['orderMonth']}/${order['orderYear']} ${order['orderHour']}.${order['orderMinute']}',
+                    'Total: Rp ${order['total']}',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),

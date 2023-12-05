@@ -1,8 +1,5 @@
-// ignore_for_file: camel_case_types
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'cake_collection.dart';
 
 // ==========CLASS AUTH USER===========
 class authUser {
@@ -60,81 +57,82 @@ class authUser {
   }
 }
 
-//==========CLASS AUTH CAKE=============
-class FirebaseServiceCake {
-  final FirebaseFirestore _firestoreCake = FirebaseFirestore.instance;
+// //==========CLASS AUTH CAKE=============
+// class FirebaseServiceCake {
+//   final FirebaseFirestore _firestoreCake = FirebaseFirestore.instance;
+//
+//   // UNTUK MENAMPILKAN CAKE
+//   Stream<List<Cake>> getCakesStream() {
+//     return _firestoreCake.collection('cakes').snapshots().map(
+//           (snapshot) => snapshot.docs
+//               .map(
+//                 (doc) => Cake(
+//                   id: doc.id,
+//                   name: doc['name'],
+//                   description: doc['description'],
+//                   price: doc['price'],
+//                   imageUrl: doc['imageUrl'],
+//                 ),
+//               )
+//               .toList(),
+//         );
+//   }
+//
+//   // UNTUK MENANGKAP CAKE DARI ID (DI BAGIAN UPDATE)
+//   Future<Cake?> getCakeById(String id) async {
+//     try {
+//       final DocumentSnapshot cakeDoc =
+//           await _firestoreCake.collection('cakes').doc(id).get();
+//
+//       if (cakeDoc.exists) {
+//         return Cake(
+//           id: cakeDoc.id,
+//           name: cakeDoc['name'],
+//           description: cakeDoc['description'],
+//           price: cakeDoc['price'],
+//           imageUrl: cakeDoc['imageUrl'],
+//         );
+//       } else {
+//         print('Cake with ID $id not found.');
+//         return null;
+//       }
+//     } catch (e) {
+//       print('Error fetching cake details: $e');
+//       return null;
+//     }
+//   }
+//
+//   // UNTUK TAMBAH CAKE BARU
+//   Future<void> addCake(Map<String, dynamic> cakeData) async {
+//     await _firestoreCake.collection('cakes').add(cakeData);
+//   }
+//
+//   // UNTUK UPDATE CAKE
+//   Future<Cake?> updateCake(
+//       String id, Map<String, dynamic> updatedCakeData) async {
+//     await _firestoreCake.collection('cakes').doc(id).update(updatedCakeData);
+//
+//     // Setelah pembaruan, ambil ulang data kue dari Firestore dan kembalikan
+//     final updatedCakeDoc =
+//         await _firestoreCake.collection('cakes').doc(id).get();
+//
+//     if (updatedCakeDoc.exists) {
+//       return Cake(
+//         id: updatedCakeDoc.id,
+//         name: updatedCakeDoc['name'],
+//         description: updatedCakeDoc['description'],
+//         price: updatedCakeDoc['price'],
+//         imageUrl: updatedCakeDoc['imageUrl'],
+//       );
+//     } else {
+//       print('Cake with ID $id not found.');
+//       return null;
+//     }
+//   }
+//
+//   // UNTUK HAPUS CAKE
+//   Future<void> deleteCake(String id) async {
+//     await _firestoreCake.collection('cakes').doc(id).delete();
+//   }
+// }
 
-  // UNTUK MENAMPILKAN CAKE
-  Stream<List<Cake>> getCakesStream() {
-    return _firestoreCake.collection('cakes').snapshots().map(
-          (snapshot) => snapshot.docs
-              .map(
-                (doc) => Cake(
-                  id: doc.id,
-                  name: doc['name'],
-                  description: doc['description'],
-                  price: doc['price'],
-                  imageUrl: doc['imageUrl'],
-                ),
-              )
-              .toList(),
-        );
-  }
-
-  // UNTUK MENANGKAP CAKE DARI ID (DI BAGIAN UPDATE)
-  Future<Cake?> getCakeById(String id) async {
-    try {
-      final DocumentSnapshot cakeDoc =
-          await _firestoreCake.collection('cakes').doc(id).get();
-
-      if (cakeDoc.exists) {
-        return Cake(
-          id: cakeDoc.id,
-          name: cakeDoc['name'],
-          description: cakeDoc['description'],
-          price: cakeDoc['price'],
-          imageUrl: cakeDoc['imageUrl'],
-        );
-      } else {
-        print('Cake with ID $id not found.');
-        return null;
-      }
-    } catch (e) {
-      print('Error fetching cake details: $e');
-      return null;
-    }
-  }
-
-  // UNTUK TAMBAH CAKE BARU
-  Future<void> addCake(Map<String, dynamic> cakeData) async {
-    await _firestoreCake.collection('cakes').add(cakeData);
-  }
-
-  // // UNTUK UPDATE CAKE
-  Future<Cake?> updateCake(
-      String id, Map<String, dynamic> updatedCakeData) async {
-    await _firestoreCake.collection('cakes').doc(id).update(updatedCakeData);
-
-    // Setelah pembaruan, ambil ulang data kue dari Firestore dan kembalikan
-    final updatedCakeDoc =
-        await _firestoreCake.collection('cakes').doc(id).get();
-
-    if (updatedCakeDoc.exists) {
-      return Cake(
-        id: updatedCakeDoc.id,
-        name: updatedCakeDoc['name'],
-        description: updatedCakeDoc['description'],
-        price: updatedCakeDoc['price'],
-        imageUrl: updatedCakeDoc['imageUrl'],
-      );
-    } else {
-      print('Cake with ID $id not found.');
-      return null;
-    }
-  }
-
-  // UNTUK HAPUS CAKE
-  Future<void> deleteCake(String id) async {
-    await _firestoreCake.collection('cakes').doc(id).delete();
-  }
-}

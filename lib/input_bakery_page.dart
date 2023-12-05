@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'main.dart';
 import 'cake_collection.dart';
-import 'auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class input_bakery_page extends StatefulWidget {
@@ -463,7 +462,7 @@ class _InputPageState extends State<input_bakery_page> {
                     stream: FirebaseServiceCake().getCakesStream(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
+                        return CircularProgressIndicator  ();
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
                       } else if (snapshot.data == null ||
@@ -471,6 +470,7 @@ class _InputPageState extends State<input_bakery_page> {
                         return Text('Tidak ada data kue.');
                       } else {
                         List<Cake> cakes = snapshot.data!;
+
                         return ListView.builder(
                           shrinkWrap: true,
                           itemCount: cakes.length,

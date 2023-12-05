@@ -28,7 +28,10 @@ class ManageCake extends StatelessWidget {
             child: IconButton(
               onPressed: () {
                 // Navigator untuk tambah cake
-                Navigator.pushNamed(context, EditCake.routeName);
+                Navigator.pushNamed(
+                    context,
+                    EditCake.routeName
+                );
               },
               icon: const Icon(
                 Icons.add,
