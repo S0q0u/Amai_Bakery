@@ -111,7 +111,7 @@ class home_page extends StatelessWidget {
                                 margin: const EdgeInsets.only(left: 10),
                                 child: Text(
                                   //'Rp ${cakes[index].price.toString()}',
-                                  cake.price.toString(),
+                                  "Rp. ${cake.price.toString()}",
                                   style: TextStyle(
                                     color: theme.primaryColor,
                                     fontSize: 16,
