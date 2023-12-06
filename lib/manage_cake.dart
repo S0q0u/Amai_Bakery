@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'cake_collection.dart';
 import 'edit_cake.dart';
-import 'auth.dart';
 
 class ManageCake extends StatelessWidget {
   static const String routeName = '/ManageCake';

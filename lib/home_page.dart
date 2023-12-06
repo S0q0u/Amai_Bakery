@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'cake_collection.dart';
 import 'login.dart';
-import 'auth.dart';
 
 class home_page extends StatelessWidget {
   static const String routeName = '/Home';

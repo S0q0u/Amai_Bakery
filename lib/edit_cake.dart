@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'cake_collection.dart';
-import 'auth.dart';
 
 class EditCake extends StatefulWidget {
   static const routeName = '/EditCake';
@@ -94,7 +93,9 @@ class _EditCakeState extends State<EditCake> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: theme.primaryColor,
-        title: const Text('Edit Cake'),
+        title:  selectedCakeId == null
+            ? const Text('Add Cake')
+            : const Text('Edit Cake'),
         actions: [
           IconButton(
             icon: const Icon(Icons.save),
