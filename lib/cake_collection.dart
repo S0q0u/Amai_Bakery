@@ -42,8 +42,7 @@ class FirebaseServiceCake {
 
   Stream<List<Cake>> getCakesStream() {
     return _firestoreCake.collection('cakes').snapshots().map(
-          (snapshot) => snapshot.docs
-          .map(
+          (snapshot) => snapshot.docs.map(
             (doc) => Cake.fromMap({
           'id': doc.id,
           'name': doc['name'],
@@ -83,25 +82,37 @@ class FirebaseServiceCake {
     await _firestoreCake.collection('cakes').add(cake.toMap());
   }
 
+  // Future<Cake?> updateCake(String id, Map<String, dynamic> updatedCakeData) async {
+  //   await _firestoreCake.collection('cakes').doc(id).update(updatedCakeData);
+  //
+  //   final updatedCakeDoc = await _firestoreCake.collection('cakes').doc(id).get();
+  //
+  //   if (updatedCakeDoc.exists) {
+  //     return Cake.fromMap({
+  //       'id': updatedCakeDoc.id,
+  //       'name': updatedCakeDoc['name'],
+  //       'description': updatedCakeDoc['description'],
+  //       'price': updatedCakeDoc['price'],
+  //       'imageUrl': updatedCakeDoc['imageUrl'],
+  //     });
+  //   } else {
+  //     print('Cake with ID $id not found.');
+  //     return null;
+  //   }
+  // }
   Future<Cake?> updateCake(String id, Map<String, dynamic> updatedCakeData) async {
     await _firestoreCake.collection('cakes').doc(id).update(updatedCakeData);
 
-    final updatedCakeDoc =
-    await _firestoreCake.collection('cakes').doc(id).get();
-
-    if (updatedCakeDoc.exists) {
-      return Cake.fromMap({
-        'id': updatedCakeDoc.id,
-        'name': updatedCakeDoc['name'],
-        'description': updatedCakeDoc['description'],
-        'price': updatedCakeDoc['price'],
-        'imageUrl': updatedCakeDoc['imageUrl'],
-      });
-    } else {
-      print('Cake with ID $id not found.');
-      return null;
-    }
+    // Langsung kembalikan instansiasi baru dari Cake dengan data yang diperbarui
+    return Cake.fromMap({
+      'id': id,
+      'name': updatedCakeData['name'] ?? '',
+      'description': updatedCakeData['description'] ?? '',
+      'price': (updatedCakeData['price'] ?? 0.0).toDouble(),
+      'imageUrl': updatedCakeData['imageUrl'] ?? '',
+    });
   }
+
 
   // HAPUS
   Future<void> deleteCake(String id) async {
